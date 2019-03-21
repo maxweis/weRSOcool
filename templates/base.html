@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <title>{% block title %}weRSOcool{% endblock %}</title>
+</head>
+<body>
+    {% load crispy_forms_tags %}
+    <header>
+        <a href="{% url 'home' %}">
+            <h1 class="text-center">weRSOcool</h1>
+        </a>
+        <div class="text-right" style="padding-right:5%">
+        {% if user.is_authenticated %}
+            Hello, {{ user.username }}!
+            <br>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'signup' %}">Sign Up</a>
+            <br>
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+        </div>
+    </header>
+    <hr>
+    <main>
+    <div class="text-left" style="padding-left:10%">
+    {% block content %}
+    {% endblock %}
+    </main>
+    </div>
+    <hr>
+</body>
+</html>
