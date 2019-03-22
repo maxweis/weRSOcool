@@ -26,7 +26,8 @@ SECRET_KEY = '3y*wmkojbji#ru8okz=j@+t=u_l^sle1&zg!*n#517vibm-doo'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-        'wersocool.maxweis.me'
+        'wersocool.maxweis.me',
+        'localhost',
         ]
 
 
