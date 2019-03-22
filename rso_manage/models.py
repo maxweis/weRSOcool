@@ -5,3 +5,6 @@ class RSO(models.Model):
     year_established = models.IntegerField()
     college_association = models.CharField(max_length=50)
     icon = models.ImageField()
+
+    def __str__(self):
+        return self.name
