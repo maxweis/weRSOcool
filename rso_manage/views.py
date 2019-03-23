@@ -5,7 +5,7 @@ from .forms import RSOCreationForm
 def AddRSO(request):
     date_established = "DEFAULT"
     if request.method == 'POST':
-        form = RSOCreationForm(request.POST)
+        form = RSOCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             name = form.cleaned_data.get('name')
