@@ -15,7 +15,9 @@
         {% if user.is_authenticated %}
             Hello, {{ user.username }}!
             <br>
-            <a href="{% url 'logout' %}">Member Logout</a>
+            <a href="{% url 'logout' %}">Member Logout</a> 
+            <br>
+            <a href="{% url 'rso_registration' %}">Register RSO</a>
         {% else %}
             <a href="{% url 'signup' %}">Member Sign Up</a>
             <br>
