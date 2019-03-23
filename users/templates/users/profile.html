@@ -1,4 +1,12 @@
-<h3>This will be a user profile page for {{ member.username }}</h3>
-{{ member.first_name }} {{ member.last_name }} <br>
-{{ member.email }} <br>
-{{ member.major }} <br>
+{% extends 'base.html' %}
+
+{% block title %}weRSOcool{% endblock %}
+
+{% block content %}
+<div class="text-left" style="padding-left:10%">
+    <h3>Profile: {{ member.username }}</h3>
+    Name: {{ member.first_name }} {{ member.last_name }} <br>
+    Email: {{ member.email }} <br>
+    Major: {{ member.major }} <br>
+</div>
+{% endblock %}

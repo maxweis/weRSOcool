@@ -1,10 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Registered Members{% endblock %}
+
+{% block content %}
+<div class="text-left" style="padding-left:10%">
 <h2> Registered weRSOcool members </h2>
 {% if all_memebers %}
     <ul>
     {% for member in all_memebers %}
-        <a href="/users/{{ member.username }}">{{ member.first_name }} {{ member.last_name }}</a><br>
+    <a href="/users/{{ member.username }}">{{ member.username }}: {{ member.first_name }} {{ member.last_name }}</a><br>
     {% endfor %}
     </ul>
 {% else %}
     <h3> No members added </h3>
 {% endif %}
+</div>
+{% endblock %}
