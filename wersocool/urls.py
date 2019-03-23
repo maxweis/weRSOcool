@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from users import views as users_views
+from rso_manage import views as rso_views
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
@@ -10,4 +11,5 @@ urlpatterns = [
     url(r'^logout/$', auth_views.LogoutView.as_view(), {'template_name': 'logged_out.html'}, name='logout'),
     url(r'^admin/', admin.site.urls),
     url(r'^signup/$', users_views.SignUp, name='signup'),
+    url(r'^rso_registration', rso_views.AddRSO, name='rso_registration'),
 ]

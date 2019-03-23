@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+,
+<title>{% block title %}RSO Registration{% endblock %}</title>
+{% block content %}
+    {% if user.is_authenticated %}
+    <h2>RSO Registration</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-success" type="submit">Submit</button>
+    </form>
+    {% else %}
+    <div class="text-left" style="padding-left:10%">
+        <h2>RSO Registration</h2>
+        <p>You can not create an RSO without signing in</p><br>
+    </div>
+    {% endif %}
+{% endblock %}

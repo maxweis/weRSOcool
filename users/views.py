@@ -11,6 +11,9 @@ def SignUp(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
+            major = form.cleaned_data.get('major')
+            resume = form.cleaned_data.get('resume')
+            icon = form.cleaned_data.get('icon')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
@@ -18,10 +21,3 @@ def SignUp(request):
     else:
         form = MemberCreationForm()
     return render(request, 'signup.html', {'form' : form})
-
-# class SignUp(generic.CreateView):
-    # model = Member
-    # form_class = MemberCreationForm
-    # template_name = 'signup.html'
-    # success_url = redirect('home')
-    # # login(user)
