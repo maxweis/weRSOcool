@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from django.http import Http404
 from .forms import MemberCreationForm
 from .models import Member
-from query import query
 
 def SignUp(request):
     if request.method == 'POST':
