@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.http import Http404
 from .forms import MemberCreationForm
 from .models import Member
+from query import query
 
 def SignUp(request):
     if request.method == 'POST':
@@ -24,8 +25,8 @@ def SignUp(request):
     return render(request, 'signup.html', {'form' : form})
 
 def index(request):
-    all_memebers = Member.objects.all()
-    return render(request, 'users/index.html', {'all_memebers' : all_memebers})
+    all_members = Member.objects.raw('SELECT username FROM "users_member"') 
+    return render(request, 'users/index.html', {'all_members' : all_members})
 
 def profile(request, username):
     try:
