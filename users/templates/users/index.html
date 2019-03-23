@@ -5,9 +5,9 @@
 {% block content %}
 <div class="text-left" style="padding-left:10%">
 <h2> Registered weRSOcool members </h2>
-{% if all_memebers %}
+{% if all_members %}
     <ul>
-    {% for member in all_memebers %}
+    {% for member in all_members %}
     <a href="/users/{{ member.username }}">{{ member.username }}: {{ member.first_name }} {{ member.last_name }}</a><br>
     {% endfor %}
     </ul>
