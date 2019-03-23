@@ -1,0 +1,10 @@
+<h2> Registered weRSOcool members </h2>
+{% if all_memebers %}
+    <ul>
+    {% for member in all_memebers %}
+        <a href="/users/{{ member.username }}">{{ member.first_name }} {{ member.last_name }}</a><br>
+    {% endfor %}
+    </ul>
+{% else %}
+    <h3> No members added </h3>
+{% endif %}

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
+from django.http import Http404
 from .forms import MemberCreationForm
 from .models import Member
 
@@ -21,3 +22,14 @@ def SignUp(request):
     else:
         form = MemberCreationForm()
     return render(request, 'signup.html', {'form' : form})
+
+def index(request):
+    all_memebers = Member.objects.all()
+    return render(request, 'users/index.html', {'all_memebers' : all_memebers})
+
+def profile(request, username):
+    try:
+        member = Member.objects.get(username=username)
+    except Member.DoesNotExist:
+        raise Http404("User does not exist.")
+    return render(request, 'users/profile.html', {'member' : member})
