@@ -9,12 +9,6 @@
         {{ form.as_p }}
         <button class="btn btn-success" type="submit">Submit</button>
     </form>
-    <form action="{% url upload_rso_icon %}" method="post" enctype="multipart/form-data"> {% csrf_token %}
-	    <p>
-		<input id="id_image" type="file" class="" name="image">
-	    </p>
-	    <input type="submit" value="Submit"/>
-    </form>
     {% else %}
     <div class="text-left" style="padding-left:10%">
         <h2>RSO Registration</h2>
