@@ -11,8 +11,7 @@ class RSOCreationForm(ModelForm):
 
     college_association = forms.CharField(max_length=64)
     icon = forms.ImageField(required=False)
-    creator = forms.CharField(max_length=64)
 
     class Meta(ModelForm):
         model = RSO
-        fields = ('name', 'date_established', 'college_association', 'icon', 'creator')
+        fields = ('name', 'date_established', 'college_association', 'icon')

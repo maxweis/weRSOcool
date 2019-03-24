@@ -12,7 +12,7 @@ def AddRSO(request):
             date_established = form.cleaned_data.get('date_established')
             college_association = form.cleaned_data.get('college_association')
             icon = form.cleaned_data.get('icon')
-            creator = form.cleaned_data.get('creator')
+            creator = request.user
             return redirect('home')
     else:
         form = RSOCreationForm()

@@ -6,7 +6,7 @@ class RSO(models.Model):
     date_established = models.DateField()
     college_association = models.CharField(max_length=50)
     icon = models.ImageField(upload_to='rso_icons/', default='rso_icons/None/none.jpg')
-    creator = models.OneToOneField(Member, models.CASCADE)
+    creator = models.CharField(max_length=64)
 
     def __str__(self):
         return self.name
