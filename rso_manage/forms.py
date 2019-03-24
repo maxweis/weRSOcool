@@ -15,3 +15,4 @@ class RSOCreationForm(ModelForm):
     class Meta(ModelForm):
         model = RSO
         fields = ('name', 'date_established', 'college_association', 'icon')
+        exclude = ["creator"]
