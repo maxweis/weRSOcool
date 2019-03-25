@@ -18,3 +18,9 @@ class Member(AbstractUser):
 
     def __str__(self):
         return self.first_name + self.last_name
+
+from rso_manage.models import RSO
+class Registrations(models.Model):
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    rso = models.ForeignKey(RSO, on_delete=models.CASCADE)
+    

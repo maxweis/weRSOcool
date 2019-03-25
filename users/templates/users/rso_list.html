@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Registered RSOs{% endblock %}
+
+{% block content %}
+<div class="text-left" style="padding-left:10%">
+    <h2> Registered RSOS </h2>
+    {% if all_rsos %}
+        {% for rso in all_rsos %}
+    <h3> {{rso.name}} <br> </h3>
+    <b>Established:</b> {{rso.date_established}} <br>
+    <b>College:</b> {{rso.college_association}} <br>
+    <img src={{rso.icon}}> <br>
+    <b>Creator:</b> {{rso.creator}} <br>
+    
+        {% endfor %}
+    {% else %}
+    <h3> No rsos added </h3>
+    {% endif %}
+</div>
+{% endblock %}

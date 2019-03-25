@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.http import Http404
 from .forms import MemberCreationForm
 from .models import Member
+from rso_manage.models import RSO
 
 def SignUp(request):
     if request.method == 'POST':
@@ -33,3 +34,9 @@ def profile(request, username):
     except Member.DoesNotExist:
         raise Http404("User does not exist.")
     return render(request, 'users/profile.html', {'member' : member})
+def registrations(request):
+    #important change this this is just some random stuff i added
+    return None
+def rso_list(request):
+    all_rsos = RSO.objects.raw('SELECT * FROM "rso_manage_rso"')
+    return render(request, 'users/rso_list.html', {'all_rsos' : all_rsos})

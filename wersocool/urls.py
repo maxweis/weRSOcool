@@ -5,6 +5,7 @@ from django.views.generic.base import TemplateView
 from users import views as users_views
 from users import urls as users_urls
 from rso_manage import views as rso_views
+from django.urls import path
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
@@ -14,4 +15,5 @@ urlpatterns = [
     url(r'^signup/$', users_views.SignUp, name='signup'),
     url(r'^users/', include(users_urls)),
     url(r'^rso_registration', rso_views.AddRSO, name='rso_registration'),
+    path("rso/", users_views.rso_list, name='rso_list'),
 ]
