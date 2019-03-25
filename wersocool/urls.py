@@ -6,6 +6,8 @@ from users import views as users_views
 from users import urls as users_urls
 from rso_manage import views as rso_views
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
@@ -16,4 +18,4 @@ urlpatterns = [
     url(r'^users/', include(users_urls)),
     url(r'^rso_registration', rso_views.AddRSO, name='rso_registration'),
     path("rso/", users_views.rso_list, name='rso_list'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

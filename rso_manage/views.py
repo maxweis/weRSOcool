@@ -7,12 +7,13 @@ def AddRSO(request):
     if request.method == 'POST':
         form = RSOCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
             name = form.cleaned_data.get('name')
             date_established = form.cleaned_data.get('date_established')
             college_association = form.cleaned_data.get('college_association')
             icon = form.cleaned_data.get('icon')
-            creator = form.cleaned_data.get('creator')
+            form_save = form.save(commit=False)
+            form_save.creator = request.user.username
+            form.save()
             return redirect('home')
     else:
         form = RSOCreationForm()
