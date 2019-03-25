@@ -3,16 +3,16 @@
 {% block title %}Registered RSOs{% endblock %}
 
 {% block content %}
-<div class="text-left" style="padding-left:10%">
     <h2> Registered RSOS </h2>
+    <br>
+<div class="text-center">
     {% if all_rsos %}
         {% for rso in all_rsos %}
     <h3> {{rso.name}} <br> </h3>
+    <img src="/media/{{rso.icon}}"> <br>
     <b>Established:</b> {{rso.date_established}} <br>
     <b>College:</b> {{rso.college_association}} <br>
-    <img src={{rso.icon}}> <br>
-    <b>Creator:</b> {{rso.creator}} <br>
-    
+    <b>Creator:</b> {{rso.creator}} <br> <br> <br>
         {% endfor %}
     {% else %}
     <h3> No rsos added </h3>
