@@ -8,7 +8,7 @@
 {% if all_members %}
     <ul>
     {% for member in all_members %}
-    <a href="/users/{{ member.username }}">{{ member.username }}: {{ member.first_name }} {{ member.last_name }}</a><br>
+    <a href="{% url 'user-profile' member.username %}">{{ member.username }}: {{ member.first_name }} {{ member.last_name }}</a><br>
     {% endfor %}
     </ul>
 {% else %}

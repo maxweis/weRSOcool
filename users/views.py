@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
-from django.http import Http404
+# from django.http import Http404
 from .forms import MemberCreationForm
 from .models import Member
 from rso_manage.models import RSO
@@ -25,18 +25,17 @@ def SignUp(request):
     return render(request, 'signup.html', {'form' : form})
 
 def index(request):
-    all_members = Member.objects.raw('SELECT username FROM "users_member"') 
+    all_members = Member.objects.raw('SELECT username FROM "users_member"')
     return render(request, 'users/index.html', {'all_members' : all_members})
 
 def profile(request, username):
-    try:
-        member = Member.objects.get(username=username)
-    except Member.DoesNotExist:
-        raise Http404("User does not exist.")
+    member = get_object_or_404(Member, username=username)
     return render(request, 'users/profile.html', {'member' : member})
+
 def registrations(request):
     #important change this this is just some random stuff i added
     return None
+
 def rso_list(request):
     all_rsos = RSO.objects.raw('SELECT * FROM "rso_manage_rso"')
     return render(request, 'users/rso_list.html', {'all_rsos' : all_rsos})
