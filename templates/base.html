@@ -8,8 +8,11 @@
 <body>
     {% load crispy_forms_tags %}
     <header>
+        <br>
         <a href="{% url 'home' %}">
-            <h1 class="text-center">weRSOcool</h1>
+            <div class="text-center">
+                <img src="/media/logo.png"><br>
+            </div>
         </a>
         <div class="text-right" style="padding-right:5%">
         {% if user.is_authenticated %}
