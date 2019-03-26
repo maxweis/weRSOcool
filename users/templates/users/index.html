@@ -4,11 +4,21 @@
 
 {% block content %}
 <div class="text-left" style="padding-left:10%">
-<h2> Registered weRSOcool members </h2>
+    <h2> Registered weRSOcool members </h2>
+</div>
 {% if all_members %}
     <ul>
     {% for member in all_members %}
-    <a href="{% url 'user-profile' member.username %}">{{ member.username }}: {{ member.first_name }} {{ member.last_name }}</a><br>
+        <div class="text-center">
+            <h2>
+                <a href="{% url 'user-profile' member.username %}">{{ member.username }}</a><br>
+            <h2>
+            {% if member.icon %}
+                <img src="/media/{{member.icon}}"> <br>
+            {% endif %}
+            <br>
+            <br>
+        </div>
     {% endfor %}
     </ul>
 {% else %}
