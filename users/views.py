@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.contrib.auth import login, authenticate
+from django.contrib import messages
 from django.urls import reverse
 from .forms import MemberCreationForm, EditProfileForm
 from .models import Member
@@ -41,6 +42,23 @@ def update(request, username,):
     else:
         form = EditProfileForm(instance=request.user)
         return render(request, 'users/update_profile.html', {'form' : form, 'member':member})
+
+def delete(request, username):
+    if request.user.is_authenticated and username == request.user.username:
+        try:
+            Member.objects.filter(username = username).delete()
+            messages.success(request, "User deleted")
+        except:
+            messages.error(request, "User not found")
+    else:
+        messages.error(request, "You must be logged in")
+    return redirect('/users/')
+    # return render(request, 'home.html')
+
+    # to_delete = Member.objects.raw('DELETE FROM "users_member" WHERE users_member.username = username')
+    # Member.save(request)
+    # all_members = Member.objects.raw('SELECT * FROM "users_member"')
+    # return render(request, 'users/index.html', {'all_members' : all_members})
 
 def registrations(request):
     #important change this this is just some random stuff i added
