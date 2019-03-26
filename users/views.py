@@ -10,7 +10,7 @@ from rso_manage.models import RSO
 
 def SignUp(request):
     if request.method == 'POST':
-        form = MemberCreationForm(request.POST)
+        form = MemberCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')

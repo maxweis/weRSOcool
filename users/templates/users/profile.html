@@ -5,10 +5,16 @@
 {% block content %}
 <div class="text-left" style="padding-left:10%">
     <h3>Profile: {{ member.username }}</h3>
+    {% if user.icon %}
+        <img src="/media/{{member.icon}}"> <br>
+    {% endif %}
     Name: {{ member.first_name }} {{ member.last_name }} <br>
     Email: {{ member.email }} <br>
     Academic Year: {{ member.academic_year }} <br>
     Major: {{ member.major }} <br>
+    {% if user.resume %}
+    <a href="/media/{{ member.resume }}">Resume</a> <br>
+    {% endif %}
     {% if request.user.is_authenticated %}
         {% if member.username == user.username %}
         <br>
