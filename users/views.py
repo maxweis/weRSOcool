@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.db import connection
 from .forms import MemberCreationForm, EditProfileForm
-from .models import Member
+from .models import Member, Registrations
 from rso_manage.models import RSO
 
 def SignUp(request):
@@ -57,10 +57,19 @@ def delete(request, username):
         messages.error(request, "You must be logged in")
     return redirect('/users/')
 
-def registrations(request):
-    #important change this this is just some random stuff i added
-    return None
 
 def rso_list(request):
     all_rsos = RSO.objects.raw('SELECT * FROM "rso_manage_rso"')
     return render(request, 'users/rso_list.html', {'all_rsos' : all_rsos})
+
+
+def register(request, rso_name):
+    username = request.user.username
+    member = Member.objects.get(username=username)
+
+    rso = RSO.objects.get(name=rso_name)
+
+    reg = Registrations(member=member, rso=rso)
+    reg.save()
+    return render(request, 'users/register_success.html', {'name' : username, 'rso' : rso_name})
+
