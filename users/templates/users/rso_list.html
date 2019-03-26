@@ -14,8 +14,8 @@
     <img src="/media/{{rso.icon}}"> <br>
     <b>Established:</b> {{rso.date_established}} <br>
     <b>College:</b> {{rso.college_association}} <br>
-    <b>Creator:</b> {{rso.creator}} <br> <br> <br>
-        {% endfor %}
+    <b>Creator:</b> {{rso.creator_id}} <br> <br> <br>
+    {% endfor %}
     {% else %}
     <h3> No rsos added </h3>
     {% endif %}
