@@ -3,6 +3,7 @@ from django.views import generic
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.urls import reverse
+from django.db import connection
 from .forms import MemberCreationForm, EditProfileForm
 from .models import Member
 from rso_manage.models import RSO
@@ -46,19 +47,15 @@ def update(request, username,):
 def delete(request, username):
     if request.user.is_authenticated and username == request.user.username:
         try:
-            Member.objects.filter(username = username).delete()
+            cursor = connection.cursor()
+            cursor.execute('DELETE FROM "users_member" WHERE users_member.username = "{}"'.format(request.user.username))
+            connection.commit()
             messages.success(request, "User deleted")
         except:
             messages.error(request, "User not found")
     else:
         messages.error(request, "You must be logged in")
     return redirect('/users/')
-    # return render(request, 'home.html')
-
-    # to_delete = Member.objects.raw('DELETE FROM "users_member" WHERE users_member.username = username')
-    # Member.save(request)
-    # all_members = Member.objects.raw('SELECT * FROM "users_member"')
-    # return render(request, 'users/index.html', {'all_members' : all_members})
 
 def registrations(request):
     #important change this this is just some random stuff i added
