@@ -1,9 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.contrib.auth import login, authenticate
-from django.shortcuts import redirect
-# from django.http import Http404
-from .forms import MemberCreationForm
+from django.urls import reverse
+from .forms import MemberCreationForm, EditProfileForm
 from .models import Member
 from rso_manage.models import RSO
 
@@ -31,6 +30,17 @@ def index(request):
 def profile(request, username):
     member = get_object_or_404(Member, username=username)
     return render(request, 'users/profile.html', {'member' : member})
+
+def update(request, username,):
+    member = get_object_or_404(Member, username=username)
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('/users/'+member.username) # I couldn't get this to be not ugly
+    else:
+        form = EditProfileForm(instance=request.user)
+        return render(request, 'users/update_profile.html', {'form' : form, 'member':member})
 
 def registrations(request):
     #important change this this is just some random stuff i added

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}weRSOcool{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="sumbit" class="btn btn-primary" href="{% url 'user-update' member.username %}" value="{% url 'user-profile' member.username %}">Sumbit</button>
+    </form>
+    <br>
+</div>
+
+{% endblock %}

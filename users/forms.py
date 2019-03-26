@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import Member
 
 class MemberCreationForm(UserCreationForm):
@@ -20,3 +20,9 @@ class MemberCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = Member
         fields = ('username', 'first_name', 'last_name', 'major', 'academic_year', 'email' ,'icon', 'password1', 'password2')
+
+
+class EditProfileForm(UserChangeForm):
+    class Meta:
+        model = Member
+        fields = ('email', 'first_name', 'last_name', 'academic_year', 'major',)
