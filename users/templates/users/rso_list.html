@@ -14,8 +14,9 @@
     <img src="/media/{{rso.icon}}"> <br>
     <b>Established:</b> {{rso.date_established}} <br>
     <b>College:</b> {{rso.college_association}} <br>
-    <b>Creator:</b> <a href={% url 'user-profile' rso.creator %}>{{rso.creator}}</a> <br> <br> <br>
-    <a href="/{{rso.name}}/register" > Join! </a>
+    <b>Creator:</b> <a href={% url 'user-profile' rso.creator %}>{{rso.creator}}</a>  <br>
+    <a href ="/{{rso.name}}/members " > Members </a> <br>
+    <a href="/{{rso.name}}/register" > Join! </a><br> <br> <br>
     {% endfor %}
     {% else %}
     <h3> No rsos added </h3>
