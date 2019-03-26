@@ -11,6 +11,7 @@
     Major: {{ member.major }} <br>
     {% if request.user.is_authenticated %}
         {% if member.username == user.username %}
+        <br>
         <a class="btn btn-primary" href="{% url 'user-update' member.username %}" role="button">Update</a>
         {% endif %}
     {% endif %}
