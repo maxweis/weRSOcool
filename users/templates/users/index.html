@@ -11,11 +11,12 @@
     {% for member in all_members %}
         <div class="text-center">
             <h2>
-                <a href="{% url 'user-profile' member.username %}">{{ member.username }}</a><br>
+                <a href="{% url 'user-profile' member.username %}">{{ member.username }}<br>
             <h2>
             {% if member.icon %}
                 <img src="/media/{{member.icon}}"> <br>
             {% endif %}
+            </a>
             <br>
             <br>
         </div>
