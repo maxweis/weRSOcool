@@ -3,18 +3,25 @@
 {% block title %}Registered RSOs{% endblock %}
 
 {% block content %}
-    <div class="text-left" style="padding-left:10%">
+    <div class="text-center">
         <h2> Registered RSOS </h2>
         <br>
     </div>
-<div class="text-center">
+<div class="row justify-content-center align-items-center" style="width:95%;text-align:center; margin:0 auto">
     {% if all_rsos %}
         {% for rso in all_rsos %}
-    <h3><a href ="/{{rso.name}}/profile " >{{ rso.name }}</a></h3>
-    {% if rso.icon %}
-        <img src="/media/{{rso.icon}}"> <br>
-    {% endif %}
-    <br> <br> <br>
+            <div class="row-sm-2 py-2" style="margin:5px">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href ="/{{rso.name}}/profile " >{{ rso.name }}</h5>
+                    </div>
+                    {% if rso.icon %}
+                        <img class="card-img-bottom" src="/media/{{rso.icon}}"></a>
+                    {% else %}
+                    </a>
+                    {% endif %}
+                </div>
+        </div>
     {% endfor %}
     {% else %}
     <h3> No rsos added </h3>

@@ -3,25 +3,25 @@
 {% block title %}Registered Members{% endblock %}
 
 {% block content %}
-<div class="text-left" style="padding-left:10%">
-    <h2> Registered weRSOcool members </h2>
+<div class="text-center">
+    <h2> Registered members </h2>
 </div>
+<div class="row justify-content-center align-items-center" style="width:95%;text-align:center; margin:0 auto">
 {% if all_members %}
-    <ul>
     {% for member in all_members %}
-        <div class="text-center">
-            <h2>
-                <a href="{% url 'user-profile' member.username %}">{{ member.username }}<br>
-            <h2>
-            {% if member.icon %}
-                <img src="/media/{{member.icon}}"> <br>
-            {% endif %}
-            </a>
-            <br>
-            <br>
+            <div class="row-sm-2 py-2" style="margin:5px">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'user-profile' member.username %}">{{ member.username }}
+                        </h5>
+                    </div>
+                    {% if member.icon %}
+                        <img class="card-img-bottom" src="/media/{{member.icon}}"></a>
+                    {% endif %}
+            </div>
         </div>
     {% endfor %}
-    </ul>
 {% else %}
     <h3> No members added </h3>
 {% endif %}
