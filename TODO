@@ -5,3 +5,4 @@ TODO (kinda in order of importance):
     * event interface
     * tile rso view
     * tile member view
+    * prevent user from registering 2+ times to same RSO

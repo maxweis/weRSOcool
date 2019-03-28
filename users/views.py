@@ -69,7 +69,6 @@ def rso_profile(request, rso_name):
 def register(request, rso_name):
     username = request.user.username
     member = Member.objects.get(username=username)
-
     rso = RSO.objects.get(name=rso_name)
 
     reg = Registrations(member=member, rso=rso)
@@ -78,5 +77,5 @@ def register(request, rso_name):
 
 def rso_members(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
-    member_registrations = Registrations.objects.raw("Select * FROM users_registrations WHERE rso_id = {}".format(rso_id))
+    member_registrations = Registrations.objects.raw("SELECT * FROM users_registrations WHERE rso_id = {}".format(rso_id))
     return render(request, 'users/rso_members.html', {"member_registrations" : member_registrations})
