@@ -13,6 +13,10 @@
     <a class="btn btn-primary" href="/{{rso.name}}/members" role="button">View All Members</a>
     {% if request.user.is_authenticated %}
         <a class="btn btn-primary" href="/{{rso.name}}/register" role="button">Join {{rso.name}}</a>
+        {% if rso.creator == user.username %}
+        <br><br>
+        <a class="btn btn-danger" href="/{{rso.name}}/delete" role="button">Delete RSO</a>
+        {% endif %}
     {% endif %}
 </div>
 {% endblock %}

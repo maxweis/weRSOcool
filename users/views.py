@@ -79,3 +79,17 @@ def rso_members(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
     member_registrations = Registrations.objects.raw("SELECT * FROM users_registrations WHERE rso_id = {}".format(rso_id))
     return render(request, 'users/rso_members.html', {"member_registrations" : member_registrations})
+
+def rso_delete(request, rso_name):
+    if request.user.is_authenticated:
+        try:
+            cursor = connection.cursor()
+            query = 'DELETE FROM "rso_manage_rso" WHERE rso_manage_rso.name = "{}" AND rso_manage_rso.creator = "{}"'.format(rso_name, request.user.username)
+            cursor.execute(query)
+            connection.commit()
+            messages.success(request, "RSO deleted")
+        except:
+            messages.error(request, "RSO not found or you must be the creator of the RSO")
+    else:
+        messages.error(request, "You must be logged in to delete an RSO.")
+    return redirect('/rso/')

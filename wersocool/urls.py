@@ -18,7 +18,8 @@ urlpatterns = [
     url(r'^users/', include(users_urls)),
     url(r'^rso_registration', rso_views.AddRSO, name='rso_registration'),
     path("rso/", users_views.rso_list, name='rso_list'),
-    path("<rso_name>/members", users_views.rso_members, name='rso members'),
-    path("<rso_name>/register", users_views.register, name='register for rso'),
-    path("<rso_name>/profile", users_views.rso_profile, name='profile for rso'),
+    path("<rso_name>/members", users_views.rso_members, name='rso_members'),
+    path("<rso_name>/register", users_views.register, name='register_for_rso'),
+    path("<rso_name>/profile", users_views.rso_profile, name='profile_for_rso'),
+    path("<rso_name>/delete", users_views.rso_delete, name='delete_rso'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
