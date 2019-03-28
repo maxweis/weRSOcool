@@ -42,7 +42,7 @@ def update(request, username,):
             return redirect('/users/'+member.username) # I couldn't get this to be not ugly
     else:
         form = EditProfileForm(instance=request.user)
-        return render(request, 'users/update_profile.html', {'form' : form, 'member':member})
+        return render(request, 'users/update_profile.html', {'form' : form, 'member' : member})
 
 def delete(request, username):
     if request.user.is_authenticated and username == request.user.username:
@@ -62,6 +62,9 @@ def rso_list(request):
     all_rsos = RSO.objects.raw('SELECT * FROM "rso_manage_rso"')
     return render(request, 'users/rso_list.html', {'all_rsos' : all_rsos})
 
+def rso_profile(request, rso_name):
+    rso = get_object_or_404(RS, name=rso_name)
+    return render(request, 'users/rso_profile.html', {'rso' : rso})
 
 def register(request, rso_name):
     username = request.user.username
@@ -75,11 +78,7 @@ def register(request, rso_name):
 
 def rso_members(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
-    members = Registrations.objects.raw("Select * From users_registrations Where rso_id = {}".format(rso_id))
+    members = Registrations.objects.raw("Select * FROM users_registrations WHERE rso_id = {}".format(rso_id))
     member_names = [m.member.username for m in members]
     member_names = list(set(member_names))
-    return render(request, 'users/rso_members.html', {"members" :member_names })
-
-
-
-
+    return render(request, 'users/rso_members.html', {"members" : member_names })

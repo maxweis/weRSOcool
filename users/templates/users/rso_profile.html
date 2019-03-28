@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}weRSOcool{% endblock %}
+
+{% block content %}
+<div class="text-left" style="padding-left:10%">
+    <h3>Profile: {{ rso.name }}</h3>
+    <img src="/media/{{rso.icon}}"> <br>
+    <b>Name:</b> {{ rso.name }} <br>
+    <b>Established:</b> {{rso.date_established}} <br>
+    <b>College:</b> {{rso.college_association}} <br>
+    <b>Creator:</b> <a href={% url 'user-profile' rso.creator %}>{{rso.creator}}</a>  <br>
+    <a href ="/{{rso.name}}/members " > All Members </a> <br>
+    <a href="/{{rso.name}}/register" > Join! </a><br> <br> <br>
+</div>
+{% endblock %}

@@ -20,4 +20,5 @@ urlpatterns = [
     path("rso/", users_views.rso_list, name='rso_list'),
     path("<rso_name>/members", users_views.rso_members, name='rso members'),
     path("<rso_name>/register", users_views.register, name='register for rso'),
+    path("<rso_name>/profile", users_views.rso_profile, name='profile for rso'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
