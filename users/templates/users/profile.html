@@ -10,7 +10,7 @@
     Email: {{ member.email }} <br>
     Academic Year: {{ member.academic_year }} <br>
     Major: {{ member.major }} <br>
-    <a href="/media/{{ member.resume }}" alt="">Resume</a> <br>
+    <a class="btn btn-primary" href="/media/{{ member.resume }}" role="button">View Résumé</a>
     {% if request.user.is_authenticated %}
         {% if member.username == user.username %}
         <br>
