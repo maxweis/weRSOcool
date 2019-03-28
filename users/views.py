@@ -78,7 +78,5 @@ def register(request, rso_name):
 
 def rso_members(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
-    members = Registrations.objects.raw("Select * FROM users_registrations WHERE rso_id = {}".format(rso_id))
-    member_names = [m.member.username for m in members]
-    member_names = list(set(member_names))
-    return render(request, 'users/rso_members.html', {"members" : member_names })
+    member_registrations = Registrations.objects.raw("Select * FROM users_registrations WHERE rso_id = {}".format(rso_id))
+    return render(request, 'users/rso_members.html', {"member_registrations" : member_registrations})
