@@ -63,7 +63,7 @@ def rso_list(request):
     return render(request, 'users/rso_list.html', {'all_rsos' : all_rsos})
 
 def rso_profile(request, rso_name):
-    rso = get_object_or_404(RS, name=rso_name)
+    rso = get_object_or_404(RSO, name=rso_name)
     return render(request, 'users/rso_profile.html', {'rso' : rso})
 
 def register(request, rso_name):
