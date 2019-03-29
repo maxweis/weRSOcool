@@ -10,7 +10,7 @@
     <div class="text-center">
         {% if member_registrations %}
             {% for member in member_registrations %}
-                <a href ="/users/{{member.member.username}}/profile" >{{ member.member.first_name }} {{ member.member.last_name }}</a>
+                <a href="/users/{{member.member.username}}/profile">{{ member.member.first_name }} {{ member.member.last_name }}</a>
                 <br>
             {% endfor %}
         {% else %}

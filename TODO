@@ -1,3 +1,5 @@
 TODO (kinda in order of importance):
-    * show rsos user is registered in on profile page
-    * event interface
+    * Remove RSO "all members" page and tile members directly on the RSO page
+    * Tile RSOs on member profile page
+    * Event Interface
+    * Translate the abstracted database calls to raw queries

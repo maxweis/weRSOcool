@@ -31,10 +31,8 @@ def index(request):
 
 def profile(request, username):
     member = get_object_or_404(Member, username=username)
-
     user = Member.objects.get(username=username)
     involvements = Registrations.objects.filter(member=user)
-
     return render(request, 'profile.html', {'member' : member, 'involvements' : involvements})
 
 def update(request, username,):

@@ -31,8 +31,12 @@ def rso_list(request):
 
 def rso_profile(request, rso_name):
     rso = get_object_or_404(RSO, name=rso_name)
-    print(rso_name)
-    return render(request, 'rso_profile.html', {'rso' : rso})
+    rso_id = RSO.objects.get(name=rso_name).id
+    members = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {}'.format(rso_id))
+    member_names = [m.member.username for m in members]
+    member_names = list(set(member_names))
+    print("names "+str(member_names))
+    return render(request, 'rso_profile.html', {'rso' : rso, 'member_names' : member_names})
 
 def register(request, rso_name):
     username = request.user.username
@@ -42,6 +46,15 @@ def register(request, rso_name):
         reg = Registrations(member=member, rso=rso)
         reg.save()
     return render(request, 'register_success.html', {'name' : username, 'rso' : rso_name})
+
+def unregister(request, rso_name):
+    username = request.user.username
+    member = Member.objects.get(username=username)
+    rso = RSO.objects.get(name=rso_name)
+    if Registrations.objects.filter(member=member, rso=rso).exists():
+        Registrations.objects.get(member=member, rso=rso).delete()
+    return redirect('/rsos/'+rso_name+'/profile')
+    return render(request, 'rso_list.html', {'all_rsos' : all_rsos})
 
 def rso_members(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id

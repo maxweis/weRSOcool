@@ -12,7 +12,11 @@
     <b>Creator:</b> <a href={% url 'user-profile' rso.creator %}>{{rso.creator}}</a>  <br><br>
     <a class="btn btn-primary" href="/rsos/{{rso.name}}/members" role="button">View All Members</a>
     {% if request.user.is_authenticated %}
+        {% if request.user.username in member_names %}
+        <a class="btn btn-primary" href="/rsos/{{rso.name}}/unregister" role="button">Leave {{rso.name}}</a>
+        {% else %}
         <a class="btn btn-primary" href="/rsos/{{rso.name}}/register" role="button">Join {{rso.name}}</a>
+        {% endif %}
         {% if rso.creator == user.username %}
         <br><br>
         <a class="btn btn-danger" href="/rsos/{{rso.name}}/delete" role="button">Delete RSO</a>
