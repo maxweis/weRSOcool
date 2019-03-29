@@ -24,11 +24,21 @@
     {% if involvements == None %}
         {{ member.first_name }} {{ member.last_name }} is not in any RSOs.
     {% else %}
-        <ul style="list-style-type:disc;">
         {% for col in involvements %}
-            <li> <a href="/rsos/{{ col.rso.name }}/profile">{{ col.rso.name }}</a>
+        <div class="card" style="width: 36rem;">
+            {% if col.rso.icon %}
+            <img class="card-img-top" src="/media/{{ col.rso.icon }}" alt="{{ col.rso.name }} image">
+            {% else %}
+            <img class="card-img-top" src="/media/uiuc.jpg" alt="UIUC image">
+            {% endif %}
+                <div class="card-body">
+                <h5 class="card-title">{{ col.rso.name }}</h5>
+                <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                <a href="/rsos/{{ col.rso.name }}/profile" class="btn btn-primary">{{ col.rso.name }} Page</a>
+                </div>
+        </div>
+        <br><br>
         {% endfor %}
-        </ul>
     {% endif %}
 </div>
 {% endblock %}
