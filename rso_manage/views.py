@@ -38,9 +38,9 @@ def register(request, rso_name):
     username = request.user.username
     member = Member.objects.get(username=username)
     rso = RSO.objects.get(name=rso_name)
-
-    reg = Registrations(member=member, rso=rso)
-    reg.save()
+    if not Registrations.objects.filter(member=member, rso=rso).exists():
+        reg = Registrations(member=member, rso=rso)
+        reg.save()
     return render(request, 'register_success.html', {'name' : username, 'rso' : rso_name})
 
 def rso_members(request, rso_name):

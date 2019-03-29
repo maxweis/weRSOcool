@@ -19,7 +19,7 @@ class MemberCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm):
         model = Member
-        fields = ('username', 'first_name', 'last_name', 'major', 'academic_year', 'resume', 'email' ,'icon', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'username', 'email', 'major', 'academic_year', 'resume', 'icon', 'password1', 'password2')
 
 
 class EditProfileForm(UserChangeForm):

@@ -5,11 +5,11 @@
 {% block content %}
 <div class="text-left" style="padding-left:10%">
     <h3>Profile: {{ rso.name }}</h3>
-    <img src="/media/{{rso.icon}}"> <br>
+    <img src="/media/{{rso.icon}}"> <br><br>
     <b>Name:</b> {{ rso.name }} <br>
     <b>Established:</b> {{rso.date_established}} <br>
     <b>College:</b> {{rso.college_association}} <br>
-    <b>Creator:</b> <a href={% url 'user-profile' rso.creator %}>{{rso.creator}}</a>  <br>
+    <b>Creator:</b> <a href={% url 'user-profile' rso.creator %}>{{rso.creator}}</a>  <br><br>
     <a class="btn btn-primary" href="/rsos/{{rso.name}}/members" role="button">View All Members</a>
     {% if request.user.is_authenticated %}
         <a class="btn btn-primary" href="/rsos/{{rso.name}}/register" role="button">Join {{rso.name}}</a>

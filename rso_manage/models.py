@@ -30,5 +30,5 @@ class RSO(models.Model):
         super(RSO, self).save(*args, **kwargs)
 
 class Registrations(models.Model):
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
-    rso = models.ForeignKey(RSO, on_delete=models.CASCADE)
+    member = models.ForeignKey(Member, on_delete=models.PROTECT)
+    rso = models.ForeignKey(RSO, on_delete=models.PROTECT)
