@@ -1,10 +1,9 @@
-from django.conf.urls import url
-from . import views
 from django.urls import path
+from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='users-index'),
-    url(r'^(?P<username>\w+)/$', views.profile, name='user-profile'),
-    url(r'^(?P<username>\w+)/update$', views.update, name='user-update'),
-    url(r'^(?P<username>\w+)/delete$', views.delete, name='user-delete'),
+    path('', views.index, name='users-index'),
+    path('<username>/profile', views.profile, name='user-profile'),
+    path('<username>/update', views.update, name='user-update'),
+    path('<username>/delete', views.delete, name='user-delete'),
 ]

@@ -35,9 +35,3 @@ class Member(AbstractUser):
             thumbnail_file.seek(0)
             self.icon = InMemoryUploadedFile(thumbnail_file, 'ImageField', "{}.png".format(self.icon.name.split(".")[0]), 'image/png', sys.getsizeof(thumbnail_file), None)
         super(Member, self).save(*args, **kwargs)
-
-from rso_manage.models import RSO
-class Registrations(models.Model):
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
-    rso = models.ForeignKey(RSO, on_delete=models.CASCADE)
-    
