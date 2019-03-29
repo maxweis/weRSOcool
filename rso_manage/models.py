@@ -6,7 +6,6 @@ from PIL import Image
 from io import BytesIO
 import sys
 
-
 MAX_IMAGE_WIDTH = 1200
 MAX_IMAGE_HEIGHT = 400
 

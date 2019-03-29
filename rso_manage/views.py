@@ -1,7 +1,12 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views import generic
+from django.contrib import messages
+from django.urls import reverse
+from django.db import connection
 from .forms import RSOCreationForm
 from .models import RSO
+from .models import Registrations
+from users.models import Member
 
 def AddRSO(request):
     if request.method == 'POST':
@@ -26,6 +31,7 @@ def rso_list(request):
 
 def rso_profile(request, rso_name):
     rso = get_object_or_404(RSO, name=rso_name)
+    print(rso_name)
     return render(request, 'rso_profile.html', {'rso' : rso})
 
 def register(request, rso_name):
@@ -39,8 +45,8 @@ def register(request, rso_name):
 
 def rso_members(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
-    member_registrations = Registrations.objects.raw("SELECT * FROM users_registrations WHERE rso_id = {}".format(rso_id))
-    return render(request, 'rso_members.html', {"member_registrations" : member_registrations})
+    member_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {}'.format(rso_id))
+    return render(request, 'rso_members.html', {'member_registrations' : member_registrations})
 
 def rso_delete(request, rso_name):
     if request.user.is_authenticated:
@@ -50,8 +56,9 @@ def rso_delete(request, rso_name):
             cursor.execute(query)
             connection.commit()
             messages.success(request, "RSO deleted")
-        except:
+        except Exception as E:
+            print(E)
             messages.error(request, "RSO not found or you must be the creator of the RSO")
     else:
         messages.error(request, "You must be logged in to delete an RSO.")
-    return redirect('/rso/')
+    return redirect('/rsos/')

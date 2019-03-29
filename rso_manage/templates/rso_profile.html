@@ -10,12 +10,12 @@
     <b>Established:</b> {{rso.date_established}} <br>
     <b>College:</b> {{rso.college_association}} <br>
     <b>Creator:</b> <a href={% url 'user-profile' rso.creator %}>{{rso.creator}}</a>  <br>
-    <a class="btn btn-primary" href="/{{rso.name}}/members" role="button">View All Members</a>
+    <a class="btn btn-primary" href="/rsos/{{rso.name}}/members" role="button">View All Members</a>
     {% if request.user.is_authenticated %}
-        <a class="btn btn-primary" href="/{{rso.name}}/register" role="button">Join {{rso.name}}</a>
+        <a class="btn btn-primary" href="/rsos/{{rso.name}}/register" role="button">Join {{rso.name}}</a>
         {% if rso.creator == user.username %}
         <br><br>
-        <a class="btn btn-danger" href="/{{rso.name}}/delete" role="button">Delete RSO</a>
+        <a class="btn btn-danger" href="/rsos/{{rso.name}}/delete" role="button">Delete RSO</a>
         {% endif %}
     {% endif %}
 </div>

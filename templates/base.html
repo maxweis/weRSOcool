@@ -16,7 +16,7 @@
         </a>
         <div class="text-right" style="padding-right:5%">
         {% if user.is_authenticated %}
-        Hello, <a href="/users/{{ user.username}}">{{ user.username }}</a>!
+        Hello, <a href="/users/{{ user.username}}/profile">{{ user.username }}</a>!
             <br>
             <a href="{% url 'logout' %}">Member Logout</a> 
             <br>

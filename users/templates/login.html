@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+<title>{% block title %}RSO Member Login{% endblock %}</title>
+
+{% block content %}
+<div class="text-left" style="padding-left:10%">
+    <h2>RSO Member Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    <button class="btn btn-success" type="submit">Login</button>
+</div>
+</form>
+{% endblock %}

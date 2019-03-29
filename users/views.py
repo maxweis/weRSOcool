@@ -25,7 +25,7 @@ def SignUp(request):
     return render(request, 'signup.html', {'form' : form})
 
 def index(request):
-    all_members = Member.objects.raw('SELECT username FROM "users_member"')
+    all_members = Member.objects.raw('SELECT username FROM "users_member" WHERE username <> "admin"')
     return render(request, 'index.html', {'all_members' : all_members})
 
 def profile(request, username):
@@ -38,7 +38,7 @@ def update(request, username,):
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('/users/' + member.username)
+            return redirect('/users/' + member.username + "/profile")
     else:
         form = EditProfileForm(instance=request.user)
         return render(request, 'update_profile.html', {'form' : form, 'member' : member})
@@ -49,9 +49,9 @@ def delete(request, username):
             cursor = connection.cursor()
             cursor.execute('DELETE FROM "users_member" WHERE users_member.username = "{}"'.format(request.user.username))
             connection.commit()
-            messages.success(request, "User deleted")
+            messages.success(request, 'User deleted')
         except:
-            messages.error(request, "User not found")
+            messages.error(request, 'User not found')
     else:
-        messages.error(request, "You must be logged in")
+        messages.error(request, 'You must be logged in')
     return redirect('/users/')
