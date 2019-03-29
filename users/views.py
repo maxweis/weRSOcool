@@ -26,7 +26,7 @@ def SignUp(request):
     return render(request, 'signup.html', {'form' : form})
 
 def index(request):
-    all_members = Member.objects.raw('SELECT username FROM "users_member"')
+    all_members = Member.objects.raw('SELECT username FROM "users_member" WHERE username <> "admin"')
     return render(request, 'users/index.html', {'all_members' : all_members})
 
 def profile(request, username):
