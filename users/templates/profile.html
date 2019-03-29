@@ -16,7 +16,19 @@
         <br>
         <a class="btn btn-primary" href="{% url 'user-update' member.username %}" role="button">Update</a>
         <a class="btn btn-danger" href="{% url 'user-delete' member.username %}" role="button">Delete</a>
+        <br>
         {% endif %}
+    {% endif %}
+    <br>
+    <h5>RSO Involvement</h5>
+    {% if involvements == None %}
+        {{ member.first_name }} {{ member.last_name }} is not in any RSOs.
+    {% else %}
+        <ul style="list-style-type:disc;">
+        {% for col in involvements %}
+            <li> <a href="/rsos/{{ col.rso.name }}/profile">{{ col.rso.name }}</a>
+        {% endfor %}
+        </ul>
     {% endif %}
 </div>
 {% endblock %}

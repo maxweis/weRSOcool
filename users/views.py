@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.db import connection
 from .forms import MemberCreationForm, EditProfileForm
 from .models import Member
+from rso_manage.models import Registrations
 
 def SignUp(request):
     if request.method == 'POST':
@@ -30,7 +31,11 @@ def index(request):
 
 def profile(request, username):
     member = get_object_or_404(Member, username=username)
-    return render(request, 'profile.html', {'member' : member})
+
+    user = Member.objects.get(username=username)
+    involvements = Registrations.objects.filter(member=user)
+
+    return render(request, 'profile.html', {'member' : member, 'involvements' : involvements})
 
 def update(request, username,):
     member = get_object_or_404(Member, username=username)
