@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{{rso.name}} Events{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <h2>{{rso.name}} Events</h2>
+        <br>
+    {% if all_events %}
+        {% for event in all_events %}
+            <h3>{{event.name}}</h3>
+            <h5>
+            time: {{event.time_begin}} - {{event.time_end}} <br>
+            place: {{event.place}} <br>
+            </h5>
+            <br><br>
+        {% endfor %}
+    {% else %}
+    <h3> No events added </h3>
+    {% endif %}
+</div>
+{% endblock %}

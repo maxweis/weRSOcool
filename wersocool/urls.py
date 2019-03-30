@@ -8,6 +8,7 @@ from django.conf.urls.static import static
 from users import urls as users_urls
 from users import views as users_views
 from rso_manage import urls as rso_urls
+from events import urls as events_urls
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
@@ -17,4 +18,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include(users_urls)),
     path('rsos/', include(rso_urls)),
+    path('', include(events_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

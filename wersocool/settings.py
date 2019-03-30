@@ -41,10 +41,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
-    # 'users.apps.UsersConfig',
-    # 'rso_manage.apps.UsersConfig',
     'rso_manage',
     'users',
+    'events',
 )
 
 MIDDLEWARE = (

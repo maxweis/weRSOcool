@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+<title>{% block title %}Add Event{% endblock %}</title>
+{% block content %}
+<div class="text-left" style="padding-left:10%">
+    <h2>Add Event</h2>
+    {% if user.is_authenticated %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-success" type="submit">Submit</button>
+    </form>
+    {% else %}
+        <p>You can not create an event without signing in</p><br>
+    {% endif %}
+</div>
+{% endblock %}
