@@ -5,12 +5,15 @@
 {% block content %}
 <div class="text-left" style="padding-left:10%">
     <h3>{{ member.first_name }} {{ member.last_name }}</h3>
-    <img src="/media/{{member.icon}}"> <br><br>
+    <img src="/media/{{member.icon}}" alt=""> <br><br>
     Username: {{ member.username }}<br>
     Email: {{ member.email }} <br>
     Academic Year: {{ member.academic_year }} <br>
-    Major: {{ member.major }} <br><br>
-    <a class="btn btn-primary" href="/media/{{ member.resume }}" role="button">View Résumé</a> <br>
+    Major: {{ member.major }} <br>
+    {% if member.resume %}
+        <br>
+        <a class="btn btn-primary" href="/media/{{ member.resume }}" role="button">View Résumé</a> <br>
+    {% endif %}
     {% if request.user.is_authenticated %}
         {% if member.username == user.username %}
         <br>
@@ -20,21 +23,24 @@
         {% endif %}
     {% endif %}
     <br>
-    <h5>RSO Involvement</h5>
+    <br>
+    <h3>RSO Involvement</h3>
     {% if involvements == None %}
-        {{ member.first_name }} {{ member.last_name }} is not in any RSOs.
+        <br>
+        <h5>Not in any RSOs</h5>
     {% else %}
+        <br>
         {% for col in involvements %}
         <div class="card" style="width: 36rem;">
             {% if col.rso.icon %}
+            <a href="/rsos/{{ col.rso.name}}/profile">
             <img class="card-img-top" src="/media/{{ col.rso.icon }}" alt="{{ col.rso.name }} image">
             {% else %}
             <img class="card-img-top" src="/media/uiuc.jpg" alt="UIUC image">
             {% endif %}
                 <div class="card-body">
-                <h5 class="card-title">{{ col.rso.name }}</h5>
-                <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                <a href="/rsos/{{ col.rso.name }}/profile" class="btn btn-primary">{{ col.rso.name }} Page</a>
+                <h5 class="card-title" style="text-align:center">{{ col.rso.name }}</h5>
+            </a>
                 </div>
         </div>
         <br><br>
