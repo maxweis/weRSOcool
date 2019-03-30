@@ -46,6 +46,7 @@ def register(request, rso_name):
     if not Registrations.objects.filter(member=member, rso=rso).exists():
         reg = Registrations(member=member, rso=rso)
         reg.save()
+    return redirect('/rsos/'+rso_name+'/profile')
     return render(request, 'register_success.html', {'name' : username, 'rso' : rso_name})
 
 def unregister(request, rso_name):
@@ -63,9 +64,12 @@ def rso_members(request, rso_name):
     return render(request, 'rso_members.html', {'member_registrations' : member_registrations})
 
 def rso_delete(request, rso_name):
+    rso_id = RSO.objects.get(name=rso_name).id
     if request.user.is_authenticated:
         try:
             cursor = connection.cursor()
+            query = 'DELETE FROM "events_event" WHERE rso_id = {}'.format(rso_id)
+            cursor.execute(query)
             query = 'DELETE FROM "rso_manage_rso" WHERE rso_manage_rso.name = "{}" AND rso_manage_rso.creator = "{}"'.format(rso_name, request.user.username)
             cursor.execute(query)
             connection.commit()

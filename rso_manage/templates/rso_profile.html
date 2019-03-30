@@ -14,7 +14,7 @@
     <a class="btn btn-primary" href="/rsos/{{rso.name}}/events" role="button">View Events</a>
     {% if request.user.is_authenticated %}
         {% if request.user.username in member_names %}
-        <a class="btn btn-primary" href="/rsos/{{rso.name}}/unregister" role="button">Leave {{rso.name}}</a>
+        <a class="btn btn-danger" href="/rsos/{{rso.name}}/unregister" role="button">Leave {{rso.name}}</a>
         {% else %}
         <a class="btn btn-primary" href="/rsos/{{rso.name}}/register" role="button">Join {{rso.name}}</a>
         {% endif %}
