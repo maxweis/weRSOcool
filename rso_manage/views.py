@@ -16,6 +16,7 @@ def AddRSO(request):
             date_established = form.cleaned_data.get('date_established')
             college_association = form.cleaned_data.get('college_association')
             icon = form.cleaned_data.get('icon')
+            description = form.cleaned_data.get('description')
             form_save = form.save(commit=False)
             form_save.creator = request.user.username
             form.save()

@@ -15,6 +15,7 @@ class RSO(models.Model):
     college_association = models.CharField(max_length=50)
     icon = models.ImageField(upload_to='rso_icons/')
     creator = models.CharField(max_length=64)
+    description = models.CharField(max_length=1024)
 
     def __str__(self):
         return self.name

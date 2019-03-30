@@ -1,7 +1,6 @@
 from django import forms
 from django.forms import ModelForm
 from .models import RSO
-from users.models import Member
 import datetime
 
 class RSOCreationForm(ModelForm):
@@ -11,8 +10,9 @@ class RSOCreationForm(ModelForm):
 
     college_association = forms.CharField(max_length=64)
     icon = forms.ImageField(required=False)
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols':40}), max_length=1024)
 
     class Meta(ModelForm):
         model = RSO
-        fields = ('name', 'date_established', 'college_association', 'icon')
-        exclude = ["creator"]
+        fields = ('name', 'date_established', 'college_association', 'icon', 'description')
+        exclude = ['creator']
