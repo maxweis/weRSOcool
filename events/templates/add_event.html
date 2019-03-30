@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
+
 <title>{% block title %}Add Event{% endblock %}</title>
 {% block content %}
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ form.media }} 
 <div class="text-left" style="padding-left:10%">
     <h2>Add Event</h2>
     {% if user.is_authenticated %}
