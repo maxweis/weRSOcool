@@ -4,7 +4,7 @@ from users.models import Member
 
 class Event(models.Model):
     name = models.CharField(max_length=64);
-    rso = models.ForeignKey(RSO, on_delete=models.PROTECT)
+    rso = models.ForeignKey(RSO, on_delete=models.CASCADE)
     time_begin = models.DateTimeField()
     time_end = models.DateTimeField()
     place = models.CharField(max_length=64);
