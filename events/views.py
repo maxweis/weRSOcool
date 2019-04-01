@@ -3,6 +3,7 @@ from .forms import EventCreationForm
 from rso_manage.models import RSO
 from events.models import Event, Attending
 from users.models import Member
+import pygal                                                       # First import pygal
 
 def AddEvent(request, rso_name):
     event_rso = RSO.objects.get(name=rso_name)
@@ -29,6 +30,16 @@ def display_events(request, rso_name):
     rso = get_object_or_404(RSO, name=rso_name)
     rso_id = RSO.objects.get(name=rso_name).id
     all_events = RSO.objects.raw('SELECT * FROM "events_event" WHERE rso_id = {}'.format(rso_id))
+
+    attendance_counts = {}
+    for attend in Attending.objects.all():
+        attendance_counts[attend.event.name] = attendance_counts.get(attend.event.name, 0) + 1
+    
+    bar_chart = pygal.Bar()                                            # Then create a bar graph object
+    bar_chart.x_labels = [str(x) for x in attendance_counts.keys()]
+    bar_chart.add('attendance', attendance_counts.values())  # Add some values
+    bar_chart.render_to_png('media/bar_chart.png')                          # Save the svg to a file
+    
     return render(request, 'event_list.html', {'all_events' : all_events, 'rso' : rso, 'attend' : Attending.objects.all()})
 
 def attend_event(request, rso_name, event):
@@ -38,6 +49,9 @@ def attend_event(request, rso_name, event):
     if not Attending.objects.filter(user=member, event=event).exists():
         attendance = Attending(user=member, event=event)
         attendance.save()
+
+
+
     return redirect('/rsos/'+rso_name+'/events')
 
 
