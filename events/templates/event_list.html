@@ -12,8 +12,15 @@
             <h5>
             time: {{event.time_begin}} - {{event.time_end}} <br>
             place: {{event.place}} <br>
+            <a class="btn btn-primary" href="/rsos/{{rso.name}}/{{event.name}}/attend" role="button">Attend {{event.name}}</a>
             </h5>
             <br><br>
+            
+            <!-- the following below will later be visualized as a graph-->
+            {% for att in attend %}
+            
+                {{att.user}} attends {{att.event.name}} <br>
+            {% endfor %}
         {% endfor %}
     {% else %}
     <h3> No events added </h3>
