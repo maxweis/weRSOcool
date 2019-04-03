@@ -70,6 +70,14 @@ def unregister(request, rso_name):
         Registrations.objects.get(member=member, rso=rso).delete()
     return redirect('/rsos/'+rso_name+'/profile')
 
+def removeadmin(request, rso_name, username):
+    member = Member.objects.get(username=username)
+    rso = RSO.objects.get(name=rso_name)
+    admin_registrations = RSOAdmin.objects.raw('SELECT * FROM "rso_manage_rsoadmin" WHERE rso_id = {}'.format(rso.id))
+    if len(admin_registrations) > 1 and RSOAdmin.objects.filter(member=member, rso=rso).exists():
+        RSOAdmin.objects.get(member=member, rso=rso).delete()
+    return redirect('/rsos/'+rso_name+'/profile')
+
 def rso_delete(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
     admin_registrations = RSOAdmin.objects.raw('SELECT * FROM "rso_manage_rsoadmin" WHERE rso_id = {}'.format(rso_id))
