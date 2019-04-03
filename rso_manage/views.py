@@ -51,6 +51,17 @@ def register(request, rso_name):
         reg.save()
     return redirect('/rsos/'+rso_name+'/profile')
 
+def makeadmin(request, rso_name, username):
+    member = Member.objects.get(username=username)
+    rso = RSO.objects.get(name=rso_name)
+    admin_registrations = RSOAdmin.objects.raw('SELECT * FROM "rso_manage_rsoadmin" WHERE rso_id = {}'.format(rso.id))
+    admin_names = list(set([m.member.username for m in admin_registrations]))
+    if request.user.username in admin_names:
+        if not RSOAdmin.objects.filter(member=member, rso=rso).exists():
+            reg = RSOAdmin(member=member, rso=rso)
+            reg.save()
+    return redirect('/rsos/'+rso_name+'/profile')
+
 def unregister(request, rso_name):
     member = Member.objects.get(username=request.user.username)
     rso = RSO.objects.get(name=rso_name)
