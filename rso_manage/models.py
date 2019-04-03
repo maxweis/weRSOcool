@@ -14,7 +14,7 @@ class RSO(models.Model):
     date_established = models.DateField()
     college_association = models.CharField(max_length=50)
     icon = models.ImageField(upload_to='rso_icons/')
-    creator = models.CharField(max_length=64)
+    # creator = models.CharField(max_length=64)
     description = models.CharField(max_length=1024)
 
     def __str__(self):
@@ -33,3 +33,10 @@ class RSO(models.Model):
 class Registrations(models.Model):
     member = models.ForeignKey(Member, on_delete=models.PROTECT)
     rso = models.ForeignKey(RSO, on_delete=models.PROTECT)
+
+class RSOAdmin(models.Model):
+    member = models.ForeignKey(Member, on_delete=models.PROTECT)
+    rso = models.ForeignKey(RSO, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.rso.name + ': ' + self.member.username
