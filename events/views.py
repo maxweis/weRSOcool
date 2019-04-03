@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import EventCreationForm
-from rso_manage.models import RSO
+from rso_manage.models import RSO, RSOAdmin
 from events.models import Event, Attending
 from users.models import Member
 import pygal                                                       # First import pygal
 
 def AddEvent(request, rso_name):
     event_rso = RSO.objects.get(name=rso_name)
-    if request.user.username != event_rso.creator:
+    rso_id = RSO.objects.get(name=rso_name).id
+    admin_registrations = RSOAdmin.objects.raw('SELECT * FROM "rso_manage_rsoadmin" WHERE rso_id = {}'.format(rso_id))
+    admin_names = list(set([m.member.username for m in admin_registrations]))
+    if request.user.username not in admin_names:
         return redirect('home')
 
     if request.method == 'POST':
@@ -65,3 +68,4 @@ def event_statistics(request, rso_name):
     print(attendance)
     return None
     
+

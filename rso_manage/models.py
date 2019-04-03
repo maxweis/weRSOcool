@@ -38,6 +38,7 @@ class Registrations(models.Model):
 class Tag(models.Model):
     tag = models.CharField(max_length=100)
     rso = models.ForeignKey(RSO, on_delete=models.PROTECT)
+
 class RSOAdmin(models.Model):
     member = models.ForeignKey(Member, on_delete=models.PROTECT)
     rso = models.ForeignKey(RSO, on_delete=models.PROTECT)

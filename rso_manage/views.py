@@ -3,7 +3,7 @@ from django.views import generic
 from django.contrib import messages
 from django.urls import reverse
 from django.db import connection
-from .forms import RSOCreationForm
+from .forms import RSOCreationForm, TagCreationForm
 from .models import RSO, Registrations, RSOAdmin
 from users.models import Member
 
@@ -82,3 +82,23 @@ def rso_delete(request, rso_name):
     else:
         messages.error(request, "You must be logged in to delete an RSO.")
     return redirect('/rsos/')
+
+def add_tag(request, rso_name):
+    event_rso = RSO.objects.get(name=rso_name)
+    rso_id = RSO.objects.get(name=rso_name).id
+    admin_registrations = RSOAdmin.objects.raw('SELECT * FROM "rso_manage_rsoadmin" WHERE rso_id = {}'.format(rso_id))
+    admin_names = list(set([m.member.username for m in admin_registrations]))
+    if request.user.username not in admin_names:
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = TagCreationForm(request.POST)
+        if (form.is_valid()):
+            form_save = form.save(commit=False)
+            form_save.rso = event_rso
+            form.save()
+            return redirect('/rsos/' + rso_name + "/profile")
+    else:
+        form = TagCreationForm()
+
+    return render(request, 'add_tag.html', {'form' : form})

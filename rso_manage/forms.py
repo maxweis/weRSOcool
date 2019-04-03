@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from bootstrap_datepicker_plus import DatePickerInput
-from .models import RSO
+from .models import RSO, Tag
 
 class RSOCreationForm(ModelForm):
     name = forms.CharField(max_length=64)
@@ -14,3 +14,10 @@ class RSOCreationForm(ModelForm):
     class Meta(ModelForm):
         model = RSO
         fields = ('name', 'date_established', 'college_association', 'icon', 'description')
+
+class TagCreationForm(ModelForm):
+
+    class Meta(ModelForm):
+        model = Tag
+        fields = ('tag', )
+        exclude = ['rso']
