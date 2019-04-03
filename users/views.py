@@ -7,6 +7,7 @@ from django.db import connection
 from .forms import MemberCreationForm, EditProfileForm
 from .models import Member
 from rso_manage.models import Registrations
+import pygal                                                       # First import pygal
 
 def SignUp(request):
     if request.method == 'POST':
@@ -26,6 +27,17 @@ def SignUp(request):
     return render(request, 'signup.html', {'form' : form})
 
 def index(request):
+    pie_chart = pygal.Pie()
+
+    clubs = {}
+    for reg in Registrations.objects.all():
+        clubs[reg.rso.name] = clubs.get(reg.rso.name, 0) + 1
+
+    for club, count in clubs.items():
+        pie_chart.add(club, count)
+
+    pie_chart.render_to_png('media/member_pie_chart.png')
+    
     all_members = Member.objects.raw('SELECT username FROM "users_member" WHERE username <> "admin"')
     return render(request, 'index.html', {'all_members' : all_members})
 
