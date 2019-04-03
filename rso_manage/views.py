@@ -18,6 +18,8 @@ def AddRSO(request):
             description = form.cleaned_data.get('description')
             form_save = form.save(commit=False)
             form.save()
+            new_rso_member = Registrations(member=Member.objects.get(username=request.user.username), rso=RSO.objects.get(name=name))
+            new_rso_member.save()
             new_rso_admin = RSOAdmin(member=Member.objects.get(username=request.user.username), rso=RSO.objects.get(name=name))
             new_rso_admin.save()
             return redirect('home')
