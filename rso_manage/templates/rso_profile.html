@@ -42,7 +42,7 @@
                     {% endif %}
                     <div class="card-body">
                     <h5 class="card-title" style="text-align:center">{{ member.member.username }}</h5>
-                    {% if request.username in admin_names %}
+                    {% if request.user.username in admin_names %}
                     <a href="/rsos/{{ rso.name }}/removeadmin/{{ member.member.username }}" class="btn btn-danger">Remove admin</a>
                     {% endif %}
                 </a>
