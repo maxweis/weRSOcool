@@ -26,8 +26,8 @@ def SignUp(request):
         form = MemberCreationForm()
     return render(request, 'signup.html', {'form' : form})
 
-def index(request):
-    pie_chart = pygal.Pie()
+def rso_users_pie_chart(request):
+    pie_chart = pygal.Pie(title="Member RSO distribution")
 
     clubs = {}
     for reg in Registrations.objects.all():
@@ -36,8 +36,9 @@ def index(request):
     for club, count in clubs.items():
         pie_chart.add(club, count)
 
-    pie_chart.render_to_png('media/member_pie_chart.png')
-    
+    return pie_chart.render_django_response()
+
+def index(request):
     all_members = Member.objects.raw('SELECT username FROM "users_member" WHERE username <> "admin"')
     return render(request, 'index.html', {'all_members' : all_members})
 

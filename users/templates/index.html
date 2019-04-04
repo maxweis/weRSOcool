@@ -24,8 +24,11 @@
             </div>
         </div>
     {% endfor %}
+</div>
         <br>
-        <img src="/media/member_pie_chart.png" > 
+        <div class="text-center">
+            <embed style="width:45%" src="{% url 'rso_users_pie_chart' %}" /> 
+        </div>
 {% else %}
     <br>
     <h3> No members added </h3>
