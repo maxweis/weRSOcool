@@ -33,7 +33,7 @@
         {% for member in admin_registrations %}
             <br>
             <div class="row-sm-2 py-2" style="margin:5px">
-                <div class="card" style="width: 24rem;">
+                <div class="card" style="width: 12rem;">
                 <a href="/users/{{member.member.username}}/profile">
                     {% if member.member.icon %}
                         <img class="card-img-top" src="/media/{{ member.member.icon }}" alt="{{ member.member.name }} image">
@@ -61,7 +61,7 @@
         {% for member in member_registrations %}
             <br>
             <div class="row-sm-2 py-2" style="margin:5px">
-                <div class="card" style="width: 24rem;">
+                <div class="card" style="width: 12rem;">
                 <a href="/users/{{member.member.username}}/profile">
                     {% if member.member.icon %}
                         <img class="card-img-top" src="/media/{{ member.member.icon }}" alt="{{ member.member.name }} image">
