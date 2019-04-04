@@ -36,9 +36,7 @@ def rso_profile(request, rso_name):
     rso = get_object_or_404(RSO, name=rso_name)
     rso_id = RSO.objects.get(name=rso_name).id
     member_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {}'.format(rso_id))
-    member_names = [m.member.username for m in member_registrations]
-    member_names = list(set(member_names))
-    # print("names "+str(member_names))
+    member_names = list(set([m.member.username for m in member_registrations]))
     admin_registrations = RSOAdmin.objects.raw('SELECT * FROM "rso_manage_rsoadmin" WHERE rso_id = {}'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
     return render(request, 'rso_profile.html', {'rso' : rso, 'member_registrations' : member_registrations, 'member_names' : member_names,
