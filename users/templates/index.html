@@ -17,7 +17,9 @@
                     </h5>
                 </div>
                 {% if member.icon %}
-                    <img class="card-img-bottom" src="/media/{{member.icon}}"></a>
+                    <img class="card-img-bottom" src="/media/{{member.icon}}" alt=""></a>
+                {% else %}
+                    <img class="card-img-bottom" src="/media/default_user.png" alt=""></a>
                 {% endif %}
             </div>
         </div>

@@ -5,7 +5,11 @@
 {% block content %}
 <div class="text-left" style="padding-left:10%">
     <h3>{{ member.first_name }} {{ member.last_name }}</h3>
+    {% if member.icon %}
     <img src="/media/{{member.icon}}" alt=""> <br><br>
+    {% else %}
+    <img src="/media/default_user.png" alt=""> <br><br>
+    {% endif %}
     Username: {{ member.username }}<br>
     Email: {{ member.email }} <br>
     Academic Year: {{ member.academic_year }} <br>
@@ -34,9 +38,9 @@
         <div class="card" style="width: 24rem;">
             {% if col.rso.icon %}
             <a href="/rsos/{{ col.rso.name}}/profile">
-            <img class="card-img-top" src="/media/{{ col.rso.icon }}" alt="{{ col.rso.name }} image">
+            <img class="card-img-top" src="/media/{{ col.rso.icon }}" alt="">
             {% else %}
-            <img class="card-img-top" src="/media/uiuc.jpg" alt="UIUC image">
+            <img class="card-img-top" src="/media/default_user.png">
             {% endif %}
                 <div class="card-body">
                 <h5 class="card-title" style="text-align:center">{{ col.rso.name }}</h5>
