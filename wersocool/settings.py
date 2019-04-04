@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'rso_manage',
     'users',
     'events',
+    'analytics',
 )
 
 MIDDLEWARE = (
