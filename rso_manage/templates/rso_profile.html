@@ -71,7 +71,7 @@
                     <div class="card-body">
                     <h5 class="card-title" style="text-align:center">{{ member.member.username }}</h5>
                     {% if request.user.username in admin_names and member.member.username not in admin_names %}
-                    <a href="/rsos/{{ rso.name }}/makeadmin/{{ member.member.username }}" class="btn btn-primary">Make {{ member.member.username }} admin</a>
+                    <a href="/rsos/{{ rso.name }}/makeadmin/{{ member.member.username }}" class="btn btn-primary">Make admin</a>
                     {% endif %}
                 </a>
                 </div></div>
