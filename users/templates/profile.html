@@ -33,21 +33,22 @@
         <br>
         <h5>Not in any RSOs</h5>
     {% else %}
-        <br>
+    <div class="row" style="text-align:center; margin:0 auto">
         {% for col in involvements %}
-        <div class="card" style="width: 24rem;">
-            {% if col.rso.icon %}
-            <a href="/rsos/{{ col.rso.name}}/profile">
-            <img class="card-img-top" src="/media/{{ col.rso.icon }}" alt="">
-            {% else %}
-            <img class="card-img-top" src="/media/default_user.png">
-            {% endif %}
-                <div class="card-body">
-                <h5 class="card-title" style="text-align:center">{{ col.rso.name }}</h5>
-            </a>
-                </div>
+        <div class="row-sm-2 py-2" style="width: 36rem; margin:5px">
+            <div class="card" style="width: 24rem;">
+                {% if col.rso.icon %}
+                <a href="/rsos/{{ col.rso.name}}/profile">
+                <img class="card-img-top" src="/media/{{ col.rso.icon }}" alt="">
+                {% else %}
+                <img class="card-img-top" src="/media/default_user.png">
+                {% endif %}
+                    <div class="card-body">
+                    <h5 class="card-title" style="text-align:center">{{ col.rso.name }}</h5>
+                </a>
+            </div>
         </div>
-        <br><br>
+    </div>
         {% endfor %}
     {% endif %}
 </div>
