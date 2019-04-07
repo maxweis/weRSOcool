@@ -17,10 +17,12 @@
             {{event.time_begin}} - {{event.time_end}} <br>
             {{event.place}} <br>
             <br>
+            {% if user.is_authenticated %}
             {% if event.id in attending %}
                 <a class="btn btn-danger" href="/rsos/{{event.rso_name}}/{{event.name}}/cancel_attendance" role="button">Cancel Attendance</a>
             {% else %}
                 <a class="btn btn-primary" href="/rsos/{{event.rso_name}}/{{event.name}}/attend" role="button">Attend</a>
+            {% endif %}
             {% endif %}
             </h5>
         {% endfor %}

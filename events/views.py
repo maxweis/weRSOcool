@@ -35,7 +35,9 @@ def list_all_events(request):
     all_events = Event.objects.all().values()
     all_events = sorted(all_events, key = lambda event: event['time_begin'])
     all_events = list(filter(lambda event: event['time_begin'] > timezone.now(), all_events))
-    attending = [a.event.id for a in Attending.objects.filter(user=request.user)]
+    attending = []
+    if request.user.is_authenticated:
+        attending = [a.event.id for a in Attending.objects.filter(user=request.user)]
 
     for event in all_events:
         event['rso_name'] = RSO.objects.get(id=event['rso_id'])
@@ -48,7 +50,9 @@ def display_events(request, rso_name):
     all_events = Event.objects.filter(rso_id = rso_id).values()
     all_events = sorted(all_events, key = lambda event: event['time_begin'])
     all_events = list(filter(lambda event: event['time_begin'] > timezone.now(), all_events))
-    attending = [a.event.id for a in Attending.objects.filter(user=request.user)]
+    attending = []
+    if request.user.is_authenticated:
+        attending = [a.event.id for a in Attending.objects.filter(user=request.user)]
 
     attendance_counts = {}
     for attend in Attending.objects.all():
