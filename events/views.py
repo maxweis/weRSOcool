@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from .forms import EventCreationForm
 from rso_manage.models import RSO, RSOAdmin
 from events.models import Event, Attending
@@ -29,10 +30,21 @@ def AddEvent(request, rso_name):
 
     return render(request, 'add_event.html', {'form' : form})
 
+def list_all_events(request):
+    all_events = Event.objects.all().values()
+    all_events = sorted(all_events, key = lambda x: x['time_begin'])
+    all_events = list(filter(lambda x: x['time_begin'] > timezone.now(), all_events))
+    for event in all_events:
+        event['rso_name'] = RSO.objects.get(id=event['rso_id'])
+
+    return render(request, 'event_home.html', {'all_events' : all_events})
+
 def display_events(request, rso_name):
     rso = get_object_or_404(RSO, name=rso_name)
     rso_id = RSO.objects.get(name=rso_name).id
-    all_events = RSO.objects.raw('SELECT * FROM "events_event" WHERE rso_id = {}'.format(rso_id))
+    all_events = Event.objects.filter(rso_id = rso_id).values()
+    all_events = sorted(all_events, key = lambda x: x['time_begin'])
+    all_events = list(filter(lambda x: x['time_begin'] > timezone.now(), all_events))
 
     attendance_counts = {}
     for attend in Attending.objects.all():
@@ -52,8 +64,6 @@ def attend_event(request, rso_name, event):
     if not Attending.objects.filter(user=member, event=event).exists():
         attendance = Attending(user=member, event=event)
         attendance.save()
-
-
 
     return redirect('/rsos/'+rso_name+'/events')
 

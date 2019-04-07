@@ -3,23 +3,23 @@
 {% block title %}{{rso.name}} Events{% endblock %}
 
 {% block content %}
-    <div class="text-center">
-        <h2>{{rso.name}} Events</h2>
+<div class="text-center">
+        <h2>Upcoming RSO Events</h2>
         <br>
-    </div>
+</div>
 <div class="text-left" style="padding-left:10%">
     {% if all_events %}
         {% for event in all_events %}
             <hr>
-            <h3>{{event.name}}</h3>
+            <h2>{{event.name}}</h2>
+            <h5>Hosted by: {{event.rso_name}}<h5>
             <h5>
-            time: {{event.time_begin}} - {{event.time_end}} <br>
-            place: {{event.place}} <br>
+            {{event.time_begin}} - {{event.time_end}} <br>
+            {{event.place}} <br>
             <br>
-            <a class="btn btn-primary" href="/rsos/{{rso.name}}/{{event.name}}/attend" role="button">Attend {{event.name}}</a>
+            <a class="btn btn-primary" href="/rsos/{{rso.name}}/{{event.name}}/attend" role="button">Attend</a>
             </h5>
         {% endfor %}
-            <image src="/media/bar_chart.png">
     {% else %}
     <h3> No events added </h3>
     {% endif %}
