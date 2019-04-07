@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
+from django.db import connection
 from .forms import EventCreationForm
-from rso_manage.models import RSO, RSOAdmin
+from rso_manage.models import RSO, RSOAdmin, Registrations
 from events.models import Event, Attending
 from users.models import Member
 import pygal                                                       # First import pygal
@@ -32,19 +33,22 @@ def AddEvent(request, rso_name):
 
 def list_all_events(request):
     all_events = Event.objects.all().values()
-    all_events = sorted(all_events, key = lambda x: x['time_begin'])
-    all_events = list(filter(lambda x: x['time_begin'] > timezone.now(), all_events))
+    all_events = sorted(all_events, key = lambda event: event['time_begin'])
+    all_events = list(filter(lambda event: event['time_begin'] > timezone.now(), all_events))
+    attending = [a.event.id for a in Attending.objects.filter(user=request.user)]
+
     for event in all_events:
         event['rso_name'] = RSO.objects.get(id=event['rso_id'])
 
-    return render(request, 'event_home.html', {'all_events' : all_events})
+    return render(request, 'event_home.html', {'all_events' : all_events, 'attending': attending})
 
 def display_events(request, rso_name):
     rso = get_object_or_404(RSO, name=rso_name)
     rso_id = RSO.objects.get(name=rso_name).id
     all_events = Event.objects.filter(rso_id = rso_id).values()
-    all_events = sorted(all_events, key = lambda x: x['time_begin'])
-    all_events = list(filter(lambda x: x['time_begin'] > timezone.now(), all_events))
+    all_events = sorted(all_events, key = lambda event: event['time_begin'])
+    all_events = list(filter(lambda event: event['time_begin'] > timezone.now(), all_events))
+    attending = [a.event.id for a in Attending.objects.filter(user=request.user)]
 
     attendance_counts = {}
     for attend in Attending.objects.all():
@@ -55,7 +59,7 @@ def display_events(request, rso_name):
     bar_chart.add('attendance', attendance_counts.values())  # Add some values
     bar_chart.render_to_png('media/bar_chart.png')                          # Save the svg to a file
     
-    return render(request, 'event_list.html', {'all_events' : all_events, 'rso' : rso, 'attend' : Attending.objects.all()})
+    return render(request, 'event_list.html', {'all_events' : all_events, 'rso' : rso, 'attending' : attending})
 
 def attend_event(request, rso_name, event):
     event = Event.objects.get(name=event)
@@ -65,8 +69,18 @@ def attend_event(request, rso_name, event):
         attendance = Attending(user=member, event=event)
         attendance.save()
 
-    return redirect('/rsos/'+rso_name+'/events')
+    return redirect(request.META['HTTP_REFERER'])
 
+def cancel_attendance(request, rso_name, event):
+    event = Event.objects.get(name=event)
+    username = request.user.username
+    member = Member.objects.get(username=username)
+    if Attending.objects.filter(user=member, event=event).exists():
+            cursor = connection.cursor()
+            cursor.execute('DELETE FROM "events_attending" WHERE user_id = "{}" AND event_id = {}'.format(request.user.username, event.id))
+            connection.commit()
+
+    return redirect(request.META['HTTP_REFERER'])
 
 def event_statistics(request, rso_name):
     #WIP
