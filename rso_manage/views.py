@@ -68,8 +68,6 @@ def unregister(request, rso_name):
 
     if Registrations.objects.filter(member=member, rso=rso).exists():
         Registrations.objects.get(member=member, rso=rso).delete()
-    if RSOAdmin.objects.filter(member=member, rso=rso).exists():
-        RSOAdmin.objects.filter(member=member, rso=rso).delete()
     return redirect('/rsos/'+rso_name+'/profile')
 
 def removeadmin(request, rso_name, username):
