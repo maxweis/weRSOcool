@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.db import connection
 from .forms import RSOCreationForm, TagCreationForm
-from .models import RSO, Registrations, RSOAdmin
+from .models import RSO, Registrations, RSOAdmin, Tag
 from users.models import Member
 
 def AddRSO(request):
@@ -39,8 +39,9 @@ def rso_profile(request, rso_name):
     member_names = list(set([m.member.username for m in member_registrations]))
     admin_registrations = RSOAdmin.objects.raw('SELECT * FROM "rso_manage_rsoadmin" WHERE rso_id = {}'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
+    tags = Tag.objects.raw('SELECT * FROM "rso_manage_tag" WHERE rso_id = {}'.format(rso_id))
     return render(request, 'rso_profile.html', {'rso' : rso, 'member_registrations' : member_registrations, 'member_names' : member_names,
-                                                'admin_registrations' : admin_registrations, 'admin_names' : admin_names})
+                                                'admin_registrations' : admin_registrations, 'admin_names' : admin_names, 'tags' : tags})
 
 def register(request, rso_name):
     username = request.user.username

@@ -9,7 +9,13 @@
     <b>Description:</b> {{ rso.description }} <br>
     <b>Established:</b> {{rso.date_established}} <br>
     <b>College:</b> {{rso.college_association}} <br>
-    <br>
+
+    <b> Tags: </b>
+    <ul>
+        {% for t in tags %}
+        <li> {{t.tag}} </li>
+        {% endfor %}
+    </ul>
     <!-- <a class="btn btn-primary" href="/rsos/{{rso.name}}/members" role="button">View All Members</a> -->
     <a class="btn btn-primary" href="/rsos/{{rso.name}}/events" role="button">View Events</a>
     {% if request.user.is_authenticated %}
@@ -81,6 +87,10 @@
     {% else %}
     <h3> No members added </h3>
     {% endif %}
+    <br>
+    <br>
+    <br>
+    
 </div>
 </div>
 {% endblock %}
