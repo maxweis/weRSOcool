@@ -16,6 +16,7 @@
         <li> {{t.tag}} </li>
         {% endfor %}
     </ul>
+    Another RSO like this :<a href="/rsos/{{closest}}/profile"> {{closest}} </a> <br>
     <!-- <a class="btn btn-primary" href="/rsos/{{rso.name}}/members" role="button">View All Members</a> -->
     <a class="btn btn-primary" href="/rsos/{{rso.name}}/events" role="button">View Events</a>
     {% if request.user.is_authenticated %}
@@ -88,9 +89,9 @@
     <h3> No members added </h3>
     {% endif %}
     <br>
-    <br>
-    <br>
-    
+
+
+
 </div>
 </div>
 {% endblock %}

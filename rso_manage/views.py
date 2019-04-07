@@ -6,6 +6,7 @@ from django.db import connection
 from .forms import RSOCreationForm, TagCreationForm
 from .models import RSO, Registrations, RSOAdmin, Tag
 from users.models import Member
+from .find_similar import nearest
 
 def AddRSO(request):
     if request.method == 'POST':
@@ -40,8 +41,9 @@ def rso_profile(request, rso_name):
     admin_registrations = RSOAdmin.objects.raw('SELECT * FROM "rso_manage_rsoadmin" WHERE rso_id = {}'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
     tags = Tag.objects.raw('SELECT * FROM "rso_manage_tag" WHERE rso_id = {}'.format(rso_id))
+    closest = nearest(rso)
     return render(request, 'rso_profile.html', {'rso' : rso, 'member_registrations' : member_registrations, 'member_names' : member_names,
-                                                'admin_registrations' : admin_registrations, 'admin_names' : admin_names, 'tags' : tags})
+                                                'admin_registrations' : admin_registrations, 'admin_names' : admin_names, 'tags' : tags, 'closest' : closest})
 
 def register(request, rso_name):
     username = request.user.username

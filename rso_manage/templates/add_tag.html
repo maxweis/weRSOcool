@@ -1,0 +1,22 @@
+
+{% extends 'base.html' %}
+
+<title>{% block title %}Adding tag{% endblock %}</title>
+{% block content %}
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ form.media }} 
+<div class="text-left" style="padding-left:10%">
+    {% if user.is_authenticated %}
+    <h2>Adding Tag </h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-success" type="submit">Submit</button>
+    </form>
+    {% else %}
+    <h2>RSO Registration</h2>
+    <p>You can not create an RSO without signing in</p><br>
+    {% endif %}
+</div>
+{% endblock %}
