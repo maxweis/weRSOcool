@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rso_manage.models import Registrations, RSO
 from users.models import Member
 import pygal
+from django.db import connection
 
 def rso_users_pie_chart(request):
     pie_chart = pygal.Pie(title="Member RSO distribution")
@@ -21,14 +22,15 @@ def analytics_home(request):
 def rso_colleges_chart(request):
     pie_chart = pygal.Pie(title="Colleges Distribution")
 
-    colleges = {}
-    for rso in RSO.objects.raw("Select * from rso_manage_rso"):
-        colleges[rso.college_association] = colleges.get(rso.college_association, 0) + 1
+    get_college_assoc_query = 'SELECT r2.college_association, COUNT(*) \
+                                FROM rso_manage_registrations AS r1 JOIN rso_manage_rso as r2 ON r1.rso_id = r2.id \
+                                GROUP BY r2.college_association'
 
-    # get_college_assoc_query = 'SELECT * \
-    #                             FROM rso_manage_registrations JOIN users_member ON '
+    cursor = connection.cursor()
+    cursor.execute(get_college_assoc_query)
+    college_assoc = cursor.fetchall()  
 
-    for college, count in colleges.items():
+    for college, count in college_assoc:
         pie_chart.add(college, count)
 
     return pie_chart.render_django_response()
