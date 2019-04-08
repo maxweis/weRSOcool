@@ -44,15 +44,6 @@ def rso_profile(request, rso_name):
     tags = Tag.objects.raw('SELECT * FROM "rso_manage_tag" WHERE rso_id = {}'.format(rso_id))
     closest = nearest(rso)
 
-    majors_query = 'SELECT major, COUNT(*) \
-                    FROM rso_manage_registrations JOIN users_member ON member_id = username \
-                    WHERE rso_id = {} \
-                    GROUP BY major'.format(rso_id)
-
-
-    cursor = connection.cursor()
-    cursor.execute(majors_query)
-    majors_dist = cursor.fetchall()
 
     return render(request, 'rso_profile.html', {'rso' : rso, 'member_registrations' : member_registrations, 'member_names' : member_names,
                                                 'admin_registrations' : admin_registrations, 'admin_names' : admin_names, 'tags' : tags, 'closest' : closest,
@@ -144,15 +135,17 @@ def major_distribution(request, rso_name):
 
     pie_chart = pygal.Pie(title="Majors in Our RSO")
 
+    rso_id = RSO.objects.get(name=rso_name).id
+
     majors_query = 'SELECT major, COUNT(*) \
                     FROM rso_manage_registrations JOIN users_member ON member_id = username \
-                    GROUP BY major'
+                    WHERE rso_id = {} \
+                    GROUP BY major'.format(rso_id)
 
 
     cursor = connection.cursor()
     cursor.execute(majors_query)
     majors_dist = cursor.fetchall()
-
     for major, count in majors_dist:
         pie_chart.add(major, count)
 
