@@ -45,3 +45,7 @@ class RSOAdmin(models.Model):
 
     def __str__(self):
         return self.rso.name + ': ' + self.member.username
+
+class MajorDist(models.Model):
+    major = models.CharField(max_length=100)
+    count = models.IntegerField()

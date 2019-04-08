@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.db import connection
 from .forms import RSOCreationForm, TagCreationForm
-from .models import RSO, Registrations, RSOAdmin, Tag
+from .models import RSO, Registrations, RSOAdmin, Tag, MajorDist
 from users.models import Member
 from .find_similar import nearest
 
@@ -42,8 +42,19 @@ def rso_profile(request, rso_name):
     admin_names = list(set([m.member.username for m in admin_registrations]))
     tags = Tag.objects.raw('SELECT * FROM "rso_manage_tag" WHERE rso_id = {}'.format(rso_id))
     closest = nearest(rso)
+
+    majors_query = 'SELECT major, COUNT(*) \
+                    FROM rso_manage_registrations JOIN users_member ON member_id = username \
+                    GROUP BY major'
+
+
+    cursor = connection.cursor()
+    cursor.execute(majors_query)
+    majors_dist = cursor.fetchall()
+
     return render(request, 'rso_profile.html', {'rso' : rso, 'member_registrations' : member_registrations, 'member_names' : member_names,
-                                                'admin_registrations' : admin_registrations, 'admin_names' : admin_names, 'tags' : tags, 'closest' : closest})
+                                                'admin_registrations' : admin_registrations, 'admin_names' : admin_names, 'tags' : tags, 'closest' : closest,
+                                                'majors_dist': majors_dist})
 
 def register(request, rso_name):
     username = request.user.username

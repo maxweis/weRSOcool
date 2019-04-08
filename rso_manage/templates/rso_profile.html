@@ -94,8 +94,23 @@
     {% endif %}
     <br>
 
-
-
+    {% if majors_dist %}
+    <div class="row justify-content-left" style="width:95%;text-align:center; margin:0 auto">
+        <table class=table>
+            <tr>
+                <th>Major</th>
+                <th>Count</th>
+            </tr>
+            {% for major, count in majors_dist %}
+                <tr>
+                    <td>{{major}}</td>
+                    <td>{{count}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        
+    </div>
+    {% endif %}
 </div>
 </div>
 {% endblock %}

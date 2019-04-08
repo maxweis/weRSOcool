@@ -12,4 +12,5 @@ urlpatterns = [
     path('<rso_name>/add_tag', views.add_tag, name='tag_event'),
     path('<rso_name>/makeadmin/<username>', views.makeadmin, name='make_admin'),
     path('<rso_name>/removeadmin/<username>', views.removeadmin, name='remove_admin'),
+
 ]
