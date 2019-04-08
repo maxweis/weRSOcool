@@ -137,9 +137,6 @@ def add_tag(request, rso_name):
     else:
         form = TagCreationForm()
 
-<<<<<<< HEAD
-    return render(request, 'add_tag.html', {'form' : form})
-=======
     return render(request, 'add_tag.html', {'form' : form})
 
 def member_distributions(request, rso_name):
@@ -168,4 +165,3 @@ def rso_year_distribution(request,rso_name):
 
     return pie_chart.render_django_response()
 
->>>>>>> 75d642effe995d00c7c9a2172dd33b43bf9a47a3
