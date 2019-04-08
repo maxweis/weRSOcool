@@ -25,6 +25,9 @@ def rso_colleges_chart(request):
     for rso in RSO.objects.raw("Select * from rso_manage_rso"):
         colleges[rso.college_association] = colleges.get(rso.college_association, 0) + 1
 
+    # get_college_assoc_query = 'SELECT * \
+    #                             FROM rso_manage_registrations JOIN users_member ON '
+
     for college, count in colleges.items():
         pie_chart.add(college, count)
 

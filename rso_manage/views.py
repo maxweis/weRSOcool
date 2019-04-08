@@ -46,7 +46,8 @@ def rso_profile(request, rso_name):
 
     majors_query = 'SELECT major, COUNT(*) \
                     FROM rso_manage_registrations JOIN users_member ON member_id = username \
-                    GROUP BY major'
+                    WHERE rso_id = {} \
+                    GROUP BY major'.format(rso_id)
 
 
     cursor = connection.cursor()
@@ -152,6 +153,7 @@ def member_distributions(request, rso_name):
         pie_chart.add(majors, count)
 
     return pie_chart.render_django_response()
+
 def rso_year_distribution(request,rso_name):
     pie_chart = pygal.Pie(title="Age Distribution")
 
