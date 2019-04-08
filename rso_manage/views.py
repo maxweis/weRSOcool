@@ -7,6 +7,7 @@ from .forms import RSOCreationForm, TagCreationForm
 from .models import RSO, Registrations, RSOAdmin, Tag, MajorDist
 from users.models import Member
 from .find_similar import nearest
+import pygal
 
 def AddRSO(request):
     if request.method == 'POST':
@@ -76,6 +77,8 @@ def makeadmin(request, rso_name, username):
             reg.save()
     return redirect('/rsos/'+rso_name+'/profile')
 
+
+
 def unregister(request, rso_name):
     member = Member.objects.get(username=request.user.username)
     rso = RSO.objects.get(name=rso_name)
@@ -134,4 +137,35 @@ def add_tag(request, rso_name):
     else:
         form = TagCreationForm()
 
+<<<<<<< HEAD
     return render(request, 'add_tag.html', {'form' : form})
+=======
+    return render(request, 'add_tag.html', {'form' : form})
+
+def member_distributions(request, rso_name):
+
+    pie_chart = pygal.Pie(title="Majors in Our RSO")
+
+    rso_id = RSO.objects.get(name=rso_name).id
+    majors = {}
+    for reg in RSO.objects.raw("Select * from rso_manage_rso where rso_id = {}".format(rso_id)):
+        clubs[reg.member.major] = clubs.get(reg.member.major, 0) + 1
+
+    for major, count in majors.items():
+        pie_chart.add(majors, count)
+
+    return pie_chart.render_django_response()
+def rso_year_distribution(request,rso_name):
+    pie_chart = pygal.Pie(title="Age Distribution")
+
+    rso_id = RSO.objects.get(name=rso_name).id
+    years = {}
+    for reg in Registrations.objects.raw("Select * from rso_manage_registrations where rso_id = {}".format(rso_id)):
+        years[reg.member.academic_year] = years.get(reg.member.academic_year, 0) + 1
+
+    for major, count in years.items():
+        pie_chart.add(major, count)
+
+    return pie_chart.render_django_response()
+
+>>>>>>> 75d642effe995d00c7c9a2172dd33b43bf9a47a3

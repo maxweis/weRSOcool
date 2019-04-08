@@ -93,6 +93,7 @@
     <h3> No members added </h3>
     {% endif %}
     <br>
+<<<<<<< HEAD
 
     {% if majors_dist %}
     <div class="row justify-content-left" style="width:95%;text-align:center; margin:0 auto">
@@ -111,6 +112,12 @@
         
     </div>
     {% endif %}
+=======
+    <br>
+
+>>>>>>> 75d642effe995d00c7c9a2172dd33b43bf9a47a3
 </div>
+<h3> Age Distribution </h3>
+<embed style="width:45%" src="{% url 'rso_year_distribution' rso_name=rso.name%}" /> 
 </div>
 {% endblock %}
