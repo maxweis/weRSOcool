@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rso_manage.models import Registrations, RSO
 from users.models import Member
+from django.db import connection
 import pygal
 
 def rso_users_pie_chart(request):
@@ -43,5 +44,22 @@ def users_years(request):
 
     for club, count in clubs.items():
         pie_chart.add(club, count)
+
+    return pie_chart.render_django_response()
+
+def majors(request):
+    pie_chart = pygal.Pie(title="Majors")
+
+
+    majors_query = 'SELECT major, COUNT(*) \
+                    FROM rso_manage_registrations JOIN users_member ON member_id = username \
+                    GROUP BY major'
+
+
+    cursor = connection.cursor()
+    cursor.execute(majors_query)
+    majors_dist = cursor.fetchall()
+    for major, count in majors_dist:
+        pie_chart.add(major, count)
 
     return pie_chart.render_django_response()
