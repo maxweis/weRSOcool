@@ -56,7 +56,7 @@ def rso_profile(request, rso_name):
 
     return render(request, 'rso_profile.html', {'rso' : rso, 'member_registrations' : member_registrations, 'member_names' : member_names,
                                                 'admin_registrations' : admin_registrations, 'admin_names' : admin_names, 'tags' : tags, 'closest' : closest,
-                                                'majors_dist': majors_dist})
+                                                })
 
 def register(request, rso_name):
     username = request.user.username
@@ -140,17 +140,21 @@ def add_tag(request, rso_name):
 
     return render(request, 'add_tag.html', {'form' : form})
 
-def member_distributions(request, rso_name):
+def major_distribution(request, rso_name):
 
     pie_chart = pygal.Pie(title="Majors in Our RSO")
 
-    rso_id = RSO.objects.get(name=rso_name).id
-    majors = {}
-    for reg in RSO.objects.raw("Select * from rso_manage_rso where rso_id = {}".format(rso_id)):
-        clubs[reg.member.major] = clubs.get(reg.member.major, 0) + 1
+    majors_query = 'SELECT major, COUNT(*) \
+                    FROM rso_manage_registrations JOIN users_member ON member_id = username \
+                    GROUP BY major'
 
-    for major, count in majors.items():
-        pie_chart.add(majors, count)
+
+    cursor = connection.cursor()
+    cursor.execute(majors_query)
+    majors_dist = cursor.fetchall()
+
+    for major, count in majors_dist:
+        pie_chart.add(major, count)
 
     return pie_chart.render_django_response()
 
