@@ -33,19 +33,25 @@ class RSO(models.Model):
 class Registrations(models.Model):
     member = models.ForeignKey(Member, on_delete=models.PROTECT)
     rso = models.ForeignKey(RSO, on_delete=models.PROTECT)
+    admin = models.BooleanField(default=False)
+
+    def __str__(self):
+        if self.admin:
+            return self.rso.name + ': ' + self.member.username + "*"
+        return self.rso.name + ': ' + self.member.username
 
 
 class Tag(models.Model):
     tag = models.CharField(max_length=100)
     rso = models.ForeignKey(RSO, on_delete=models.PROTECT)
 
-class RSOAdmin(models.Model):
-    member = models.ForeignKey(Member, on_delete=models.PROTECT)
-    rso = models.ForeignKey(RSO, on_delete=models.PROTECT)
-
     def __str__(self):
-        return self.rso.name + ': ' + self.member.username
+        return self.rso.name + ": " + self.tag
+
 
 class MajorDist(models.Model):
     major = models.CharField(max_length=100)
     count = models.IntegerField()
+
+    def __str__(self):
+        return self.major + ": " + self.count
