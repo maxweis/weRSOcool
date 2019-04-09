@@ -17,9 +17,14 @@
         <li> {{t.tag}} </li>
         {% endfor %}
     </ul>
-    Another RSO like this :<a href="/rsos/{{closest}}/profile"> {{closest}} </a> <br>
-    {% endif %}
+        {% if closest != None %}
+        Another RSO like this:<a href="/rsos/{{closest}}/profile"> {{closest}} </a>
+        <br>
+        <br>
+        {% endif %}
+    {% else %}
     <br>
+    {% endif %}
     <!-- <a class="btn btn-primary" href="/rsos/{{rso.name}}/members" role="button">View All Members</a> -->
     <a class="btn btn-primary" href="/rsos/{{rso.name}}/events" role="button">View Events</a>
     {% if request.user.is_authenticated %}
@@ -108,14 +113,14 @@
                 </tr>
             {% endfor %}
         </table>
-        
+
     </div>
     {% endif %}
     <br>
 
 </div>
 <h3> Age Distribution </h3>
-<embed style="width:45%" src="{% url 'rso_year_distribution' rso_name=rso.name%}" /> 
-<embed style="width:45%" src="{% url 'major_distribution' rso_name=rso.name%}" /> 
+<embed style="width:45%" src="{% url 'rso_year_distribution' rso_name=rso.name%}" />
+<embed style="width:45%" src="{% url 'major_distribution' rso_name=rso.name%}" />
 </div>
 {% endblock %}
