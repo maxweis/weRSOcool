@@ -10,7 +10,7 @@ import pygal
 def AddEvent(request, rso_name):
     event_rso = RSO.objects.get(name=rso_name)
     rso_id = RSO.objects.get(name=rso_name).id
-    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=True'.format(rso_id))
+    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
     print("hiI", admin_names)
     if request.user.username not in admin_names:

@@ -38,8 +38,9 @@ def rso_profile(request, rso_name):
     member_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {}'.format(rso_id))
     member_names = list(set([m.member.username for m in member_registrations]))
 
-    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {} AND admin = True'.format(rso_id))
+    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {} AND admin = 1'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
+    print(admin_names)
     tags = Tag.objects.raw('SELECT * FROM "rso_manage_tag" WHERE rso_id = {}'.format(rso_id))
     closest = nearest(rso)
 
@@ -60,7 +61,7 @@ def register(request, rso_name):
 def makeadmin(request, rso_name, username):
     member = Member.objects.get(username=username)
     rso = RSO.objects.get(name=rso_name)
-    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=True'.format(rso.id))
+    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso.id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
     if request.user.username in admin_names:
         if Registrations.objects.filter(member=member, rso=rso).exists():
@@ -77,14 +78,14 @@ def unregister(request, rso_name):
 def removeadmin(request, rso_name, username):
     member = Member.objects.get(username=username)
     rso = RSO.objects.get(name=rso_name)
-    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {} AND admin=True'.format(rso.id))
+    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {} AND admin=1'.format(rso.id))
     if len(admin_registrations) > 1 and Registrations.objects.filter(member=member, rso=rso).exists():
         Registrations.objects.filter(member=member, rso=rso).update(admin=False)
     return redirect('/rsos/'+rso_name+'/profile')
 
 def rso_delete(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
-    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=True'.format(rso_id))
+    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
     if request.user.is_authenticated and request.user.username in admin_names:
         try:
@@ -109,7 +110,7 @@ def rso_delete(request, rso_name):
 def add_tag(request, rso_name):
     event_rso = RSO.objects.get(name=rso_name)
     rso_id = RSO.objects.get(name=rso_name).id
-    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=True'.format(rso_id))
+    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
     if request.user.username not in admin_names:
         return redirect('home')
