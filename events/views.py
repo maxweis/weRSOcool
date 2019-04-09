@@ -2,17 +2,16 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.db import connection
 from .forms import EventCreationForm
-from rso_manage.models import RSO, Registrations
+from rso_manage.models import RSO, RSOAdmin, Registrations
 from events.models import Event, Attending
 from users.models import Member
-import pygal
+import pygal                                                       # First import pygal
 
 def AddEvent(request, rso_name):
     event_rso = RSO.objects.get(name=rso_name)
     rso_id = RSO.objects.get(name=rso_name).id
-    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=True'.format(rso_id))
+    admin_registrations = RSOAdmin.objects.raw('SELECT * FROM "rso_manage_rsoadmin" WHERE rso_id = {}'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
-    print("hiI", admin_names)
     if request.user.username not in admin_names:
         return redirect('home')
 
@@ -58,12 +57,12 @@ def display_events(request, rso_name):
     attendance_counts = {}
     for attend in Attending.objects.all():
         attendance_counts[attend.event.name] = attendance_counts.get(attend.event.name, 0) + 1
-
+    
     bar_chart = pygal.Bar()                                            # Then create a bar graph object
     bar_chart.x_labels = [str(x) for x in attendance_counts.keys()]
     bar_chart.add('attendance', attendance_counts.values())  # Add some values
     bar_chart.render_to_png('media/bar_chart.png')                          # Save the svg to a file
-
+    
     return render(request, 'event_list.html', {'all_events' : all_events, 'rso' : rso, 'attending' : attending})
 
 def attend_event(request, rso_name, event):
@@ -96,3 +95,5 @@ def event_statistics(request, rso_name):
 # list(RSO.objects.raw('SELECT events_event.id, name, count(user_id) FROM "events_event", "events_attending" Group By name '))
     print(attendance)
     return None
+    
+
