@@ -70,7 +70,6 @@ def makeadmin(request, rso_name, username):
 def unregister(request, rso_name):
     member = Member.objects.get(username=request.user.username)
     rso = RSO.objects.get(name=rso_name)
-
     if Registrations.objects.filter(member=member, rso=rso, admin=False).exists():
         Registrations.objects.get(member=member, rso=rso, admin=False).delete()
     return redirect('/rsos/'+rso_name+'/profile')
@@ -85,12 +84,8 @@ def removeadmin(request, rso_name, username):
 
 def rso_delete(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
-    x = Registrations.objects.filter(rso_id=rso_id, admin=True)
-    print("1", x)
-    print("2", str(x.query))
     admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=True'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
-    print("3", admin_names)
     if request.user.is_authenticated and request.user.username in admin_names:
         try:
             cursor = connection.cursor()
@@ -132,17 +127,12 @@ def add_tag(request, rso_name):
     return render(request, 'add_tag.html', {'form' : form})
 
 def major_distribution(request, rso_name):
-
     pie_chart = pygal.Pie(title="Majors in Our RSO")
-
     rso_id = RSO.objects.get(name=rso_name).id
-
     majors_query = 'SELECT major, COUNT(*) \
                     FROM rso_manage_registrations JOIN users_member ON member_id = username \
                     WHERE rso_id = {} \
                     GROUP BY major'.format(rso_id)
-
-
     cursor = connection.cursor()
     cursor.execute(majors_query)
     majors_dist = cursor.fetchall()

@@ -5,7 +5,7 @@ from .forms import EventCreationForm
 from rso_manage.models import RSO, Registrations
 from events.models import Event, Attending
 from users.models import Member
-import pygal                                                       # First import pygal
+import pygal
 
 def AddEvent(request, rso_name):
     event_rso = RSO.objects.get(name=rso_name)
