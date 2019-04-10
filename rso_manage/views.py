@@ -8,6 +8,7 @@ from .models import RSO, Registrations, Tag, MajorDist
 from users.models import Member
 from .find_similar import nearest
 import pygal
+import pyperclip
 
 def AddRSO(request):
     if request.method == 'POST':
@@ -40,7 +41,7 @@ def rso_profile(request, rso_name):
 
     admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {} AND admin = 1'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
-    print(admin_names)
+    # print(admin_names)
     tags = Tag.objects.raw('SELECT * FROM "rso_manage_tag" WHERE rso_id = {}'.format(rso_id))
     closest = nearest(rso)
 
@@ -154,3 +155,18 @@ def rso_year_distribution(request,rso_name):
         pie_chart.add(major, count)
 
     return pie_chart.render_django_response()
+
+def copy_mailing_list(request, rso_name):
+    rso_id = RSO.objects.get(name=rso_name).id
+    email_query =   'SELECT email \
+                    FROM rso_manage_registrations JOIN users_member ON member_id = username \
+                    WHERE rso_id = {}'.format(rso_id)
+    
+    cursor = connection.cursor()
+    cursor.execute(email_query)
+    emails = [x[0] for x in cursor.fetchall()]
+
+    # print(','.join(emails))
+    pyperclip.copy(','.join(emails))
+    pyperclip.paste()
+    return redirect('/rsos/'+rso_name+'/profile')
