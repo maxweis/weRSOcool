@@ -1,25 +1,20 @@
-
 from .models import RSO, Tag
-
 
 def get_vectors():
     tag_list = set()
     vectors = {}
     for tag in Tag.objects.all():
-        if tag.rso not in vectors:
+        if tag.rso.name not in vectors:
             vectors[tag.rso.name] = set()
 
         tag_list.add(tag.tag)
         vectors[tag.rso.name].add(tag.tag)
-        
-
 
     tag_list = list(tag_list)
 
     for vec in vectors:
         vectors[vec] = [int(tag in vectors[vec]) for tag in tag_list]
     return vectors
-
 
 def dist(v1, v2):
     total = 0
@@ -42,8 +37,3 @@ def nearest(rso):
             closest = name
 
     return closest
-
-
-
-        
-    
