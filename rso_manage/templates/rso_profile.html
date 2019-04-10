@@ -3,7 +3,7 @@
 {% block title %}weRSOcool{% endblock %}
 
 {% block content %}
-<div class="text-left" style="padding-left:10%">
+<div class="text-left" style="padding-left:10%;">
     <h3>{{ rso.name }}</h3>
     <img src="/media/{{rso.icon}}"> <br><br>
     <b>Description:</b> {{ rso.description }} <br>
@@ -35,12 +35,15 @@
         {% endif %}
         {% if user.username in admin_names %}
         <br><br>
+        <h4>Admin Panel</h3>
         <a class="btn btn-primary" href="/rsos/{{rso.name}}/add_event" role="button">Add Event</a>
         <a class="btn btn-primary" href="/rsos/{{rso.name}}/add_tag" role="button">Add  Tags</a>
         <a class="btn btn-danger" href="/rsos/{{rso.name}}/delete" role="button">Delete RSO</a>
-        <a class="btn btn-primary" href="/rsos/{{rso.name}}/copy_mailing_list" role = "button">Copy Mailing List to Clipboard</a>
+        <br> <br>
+        <a class="btn btn-info" href="/rsos/{{rso.name}}/copy_mailing_list" role = "button">Copy Mailing List to Clipboard</a>
         {% endif %}
         <br><br>
+
     {% endif %}
     <br>
 
