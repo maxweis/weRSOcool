@@ -13,7 +13,6 @@ def AddEvent(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
     admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
-    print("hiI", admin_names)
     if request.user.username not in admin_names:
         return redirect('home')
 
@@ -33,15 +32,13 @@ def AddEvent(request, rso_name):
 
     events = event_suggestions.members_events(rso_id)
     suggest = event_suggestions.get_best_time(events)
-    print("helol darkneses my lod friend:w ")
-    print(suggest)
 
     return render(request, 'add_event.html', {'form' : form, "suggest" : suggest.strftime("%Y-%m-%d at %I:00 %p")})
 
 def list_all_events(request):
     all_events = Event.objects.all().values()
     all_events = sorted(all_events, key = lambda event: event['time_begin'])
-    all_events = list(filter(lambda event: event['time_begin'] > timezone.now(), all_events))
+    all_events = list(filter(lambda event: event['time_end'] > timezone.now(), all_events))
     attending = []
     if request.user.is_authenticated:
         attending = [a.event.id for a in Attending.objects.filter(user=request.user)]
@@ -100,5 +97,4 @@ def event_statistics(request, rso_name):
     all_events = RSO.objects.raw('SELECT * FROM "events_event" WHERE rso_id = {}'.format(rso_id))
     attendance = RSO.objects.raw('SELECT id, name, count(user_id) FROM "events_event", "events_attending" WHERE rso_id = {} Group By name '.format(rso_id))
 # list(RSO.objects.raw('SELECT events_event.id, name, count(user_id) FROM "events_event", "events_attending" Group By name '))
-    print(attendance)
     return None
