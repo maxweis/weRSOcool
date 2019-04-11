@@ -5,6 +5,7 @@ from .forms import EventCreationForm
 from rso_manage.models import RSO, Registrations
 from events.models import Event, Attending
 from users.models import Member
+import events.event_suggestions as event_suggestions
 import pygal
 
 def AddEvent(request, rso_name):
@@ -30,7 +31,12 @@ def AddEvent(request, rso_name):
     else:
         form = EventCreationForm()
 
-    return render(request, 'add_event.html', {'form' : form})
+    events = event_suggestions.members_events(rso_id)
+    suggest = event_suggestions.get_best_time(events)
+    print("helol darkneses my lod friend:w ")
+    print(suggest)
+
+    return render(request, 'add_event.html', {'form' : form, "suggest" : suggest.strftime("%Y-%m-%d at %I:00 %p")})
 
 def list_all_events(request):
     all_events = Event.objects.all().values()
@@ -62,7 +68,7 @@ def display_events(request, rso_name):
     bar_chart = pygal.Bar()                                            # Then create a bar graph object
     bar_chart.x_labels = [str(x) for x in attendance_counts.keys()]
     bar_chart.add('attendance', attendance_counts.values())  # Add some values
-    bar_chart.render_to_png('media/bar_chart.png')                          # Save the svg to a file
+    # bar_chart.render_to_png('media/bar_chart.png')                          # Save the svg to a file
 
     return render(request, 'event_list.html', {'all_events' : all_events, 'rso' : rso, 'attending' : attending})
 

@@ -1,2 +1,4 @@
-# Web-App
-Web app with TBD purpose
+# WeRSOCool
+An RSO that is cool.
+
+
