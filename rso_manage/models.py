@@ -49,6 +49,8 @@ class Tag(models.Model):
         return self.rso.name + ": " + self.tag
 
 
+
+# TODO: GET RID OF THIS #
 class MajorDist(models.Model):
     major = models.CharField(max_length=100)
     count = models.IntegerField()
