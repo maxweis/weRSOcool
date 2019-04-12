@@ -8,7 +8,6 @@ from .models import RSO, Registrations, Tag, MajorDist
 from users.models import Member
 from .find_similar import nearest
 import pygal
-import pyperclip
 
 def AddRSO(request):
     if request.method == 'POST':
@@ -156,7 +155,7 @@ def rso_year_distribution(request,rso_name):
 
     return pie_chart.render_django_response()
 
-def copy_mailing_list(request, rso_name):
+def mailing_list(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
     email_query =   'SELECT email \
                     FROM rso_manage_registrations JOIN users_member ON member_id = username \
@@ -166,7 +165,4 @@ def copy_mailing_list(request, rso_name):
     cursor.execute(email_query)
     emails = [x[0] for x in cursor.fetchall()]
 
-    # print(','.join(emails))
-    pyperclip.copy(','.join(emails))
-    pyperclip.paste()
-    return redirect('/rsos/'+rso_name+'/profile')
+    return render(request, 'rso_mailing_list.html', {'mailing_list': emails})
