@@ -31,9 +31,9 @@ def AddEvent(request, rso_name):
         form = EventCreationForm()
 
     events = event_suggestions.members_events(rso_id)
-    suggest = event_suggestions.get_best_time(events)
+    suggest, conflicts = event_suggestions.get_best_time(events)
 
-    return render(request, 'add_event.html', {'form' : form, "suggest" : suggest.strftime("%Y-%m-%d at %I:00 %p")})
+    return render(request, 'add_event.html', {'form' : form, "suggest" : suggest.strftime("%Y-%m-%d at %I:00 %p"), "conflicts": str(conflicts)})
 
 def list_all_events(request):
     all_events = Event.objects.all().values()

@@ -8,7 +8,7 @@
 {{ form.media }} 
 <div class="text-left" style="padding-left:10%">
     <h2>Add Event</h2>
-    Need help thinking of a time?  Try this: {{suggest}}
+    Need help thinking of a time?  Try {{suggest}}, since only {{conflicts}} people have things that day.
     {% if user.is_authenticated %}
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
