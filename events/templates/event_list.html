@@ -25,9 +25,9 @@
             {% endif %}
             </h5>
         {% endfor %}
-            <image src="/media/bar_chart.png">
     {% else %}
     <h3> No events added </h3>
     {% endif %}
+    <embed style="width:45%" src="/rsos/{{rso.name}}/events/attendance_chart" /> 
 </div>
 {% endblock %}

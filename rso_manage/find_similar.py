@@ -3,6 +3,7 @@ from .models import RSO, Tag
 
 def get_vectors():
     tag_list = set()
+    # vectors is map from rso_name -> feature vector
     vectors = {}
     for tag in Tag.objects.all():
         if tag.rso.name not in vectors:
@@ -13,6 +14,7 @@ def get_vectors():
 
     tag_list = list(tag_list)
 
+    # turns the feature vectors from a set into an array
     for vec in vectors:
         vectors[vec] = [int(tag in vectors[vec]) for tag in tag_list]
     return vectors

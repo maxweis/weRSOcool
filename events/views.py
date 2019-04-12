@@ -48,24 +48,28 @@ def list_all_events(request):
 
     return render(request, 'event_home.html', {'all_events' : all_events, 'attending': attending})
 
+def attendance_chart(request, rso_name):
+    attendance_counts = {}
+    for attend in Attending.objects.all():
+        if attend.event.rso.name == rso_name:
+            attendance_counts[attend.event.name] = attendance_counts.get(attend.event.name, 0) + 1
+
+    bar_chart = pygal.Bar()                                            # Then create a bar graph object
+    bar_chart.x_labels = [str(x) for x in attendance_counts.keys()]
+    bar_chart.add('attendance', attendance_counts.values())  # Add some values
+
+    return bar_chart.render_django_response()
+
 def display_events(request, rso_name):
     rso = get_object_or_404(RSO, name=rso_name)
     rso_id = RSO.objects.get(name=rso_name).id
     all_events = Event.objects.filter(rso_id = rso_id).values()
     all_events = sorted(all_events, key = lambda event: event['time_begin'])
-    all_events = list(filter(lambda event: event['time_begin'] > timezone.now(), all_events))
+    # all_events = list(filter(lambda event: event['time_end'] > timezone.now(), all_events))
     attending = []
     if request.user.is_authenticated:
         attending = [a.event.id for a in Attending.objects.filter(user=request.user)]
 
-    attendance_counts = {}
-    for attend in Attending.objects.all():
-        attendance_counts[attend.event.name] = attendance_counts.get(attend.event.name, 0) + 1
-
-    bar_chart = pygal.Bar()                                            # Then create a bar graph object
-    bar_chart.x_labels = [str(x) for x in attendance_counts.keys()]
-    bar_chart.add('attendance', attendance_counts.values())  # Add some values
-    # bar_chart.render_to_png('media/bar_chart.png')                          # Save the svg to a file
 
     return render(request, 'event_list.html', {'all_events' : all_events, 'rso' : rso, 'attending' : attending})
 
@@ -98,3 +102,10 @@ def event_statistics(request, rso_name):
     attendance = RSO.objects.raw('SELECT id, name, count(user_id) FROM "events_event", "events_attending" WHERE rso_id = {} Group By name '.format(rso_id))
 # list(RSO.objects.raw('SELECT events_event.id, name, count(user_id) FROM "events_event", "events_attending" Group By name '))
     return None
+def people_attending(request, rso_name, event):
+    
+    people = []
+    for attend in Attending.objects.all():
+        if attend.event.rso.name == rso_name:
+            people.append(attend.user)
+    return render(request, "people_attending.html", {"people" : people})
