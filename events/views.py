@@ -106,6 +106,6 @@ def people_attending(request, rso_name, event):
     
     people = []
     for attend in Attending.objects.all():
-        if attend.event.rso.name == rso_name:
+        if attend.event.name == event:
             people.append(attend.user)
     return render(request, "people_attending.html", {"people" : people})
