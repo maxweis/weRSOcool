@@ -102,3 +102,10 @@ def event_statistics(request, rso_name):
     attendance = RSO.objects.raw('SELECT id, name, count(user_id) FROM "events_event", "events_attending" WHERE rso_id = {} Group By name '.format(rso_id))
 # list(RSO.objects.raw('SELECT events_event.id, name, count(user_id) FROM "events_event", "events_attending" Group By name '))
     return None
+def people_attending(request, rso_name, event):
+    
+    people = []
+    for attend in Attending.objects.all():
+        if attend.event.rso.name == rso_name:
+            people.append(attend.user)
+    return render(request, "people_attending.html", {"people" : people})
