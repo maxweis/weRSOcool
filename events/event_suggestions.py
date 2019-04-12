@@ -14,6 +14,8 @@ def get_best_time(event_times):
     # assume that people are going to need one day in advance
     today = datetime.now()
     tomorrow = datetime.now() + timedelta(days=1)
+    if not event_times:
+        return tomorrow, 0
     sorted_events = sorted(event_types.keys())
 
     times = 0
@@ -28,6 +30,7 @@ def get_best_time(event_times):
 
     potential_days = [day for day in conflict_map.keys() if day < latest_day and day > tomorrow]
 
+    
     best_day = min(potential_days, key = lambda x: conflict_map[x])
     num_conflicts = conflict_map[best_day]
 
