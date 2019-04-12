@@ -1,0 +1,12 @@
+{% block content %}
+<div>
+    {% if mailing_list %}
+        {% for email in mailing_list %}
+            {{email}}
+            <br>
+        {% endfor %}
+    {% else %}
+        <h2>No members in this RSO</h2>
+    {% endif %}
+</div>
+{% endblock %}
