@@ -4,6 +4,7 @@ from bootstrap_datepicker_plus import DatePickerInput
 from .models import RSO, Tag
 
 COLLEGES = [
+        'None',
         'Agricultural, Consumer, and Environmental Sciences (ACES)',
         'Applied Health Sciences (AHS)',
         'Education (EDU)',
