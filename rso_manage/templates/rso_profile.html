@@ -76,6 +76,7 @@
     </div>
     <br>
 
+    <br>
     <h4>Members</h4>
     <div class="row justify-content-left" style="width:95%;text-align:center; margin:0 auto">
     {% if member_registrations %}
@@ -123,6 +124,8 @@
     <br>
 
 </div>
+<br>
+<br>
 <h3> Age Distribution </h3>
 <embed style="width:45%" src="{% url 'rso_year_distribution' rso_name=rso.name%}" />
 <embed style="width:45%" src="{% url 'major_distribution' rso_name=rso.name%}" />
