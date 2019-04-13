@@ -10,7 +10,7 @@ from users import views as users_views
 from rso_manage import urls as rso_urls
 from events import urls as events_urls
 from analytics import urls as analytics_urls
-from .views import home_view
+from .views import home_view, github_redirect, youtube_video_redirect
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -18,6 +18,8 @@ urlpatterns = [
     path('login', auth_views.LoginView.as_view(), {'template_name': 'login.html'}, name='login'),
     path('logout', auth_views.LogoutView.as_view(), {'template_name': 'logged_out.html'}, name='logout'),
     path('admin', admin.site.urls),
+    path('github', github_redirect),
+    path('video', youtube_video_redirect),
     path('about_us', TemplateView.as_view(template_name='about_us.html'), name='about_us'),
     path('users/', include(users_urls)),
     path('rsos/', include(rso_urls)),

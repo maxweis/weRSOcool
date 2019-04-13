@@ -9,3 +9,8 @@ def home_view(request):
 
     return render(request, 'home.html', {'featured_rsos' : featured_rsos})
 
+def github_redirect(request):
+    return redirect('https://github.com/maxweis/weRSOcool')
+
+def youtube_video_redirect(request):
+    return redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
