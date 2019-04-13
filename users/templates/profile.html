@@ -51,9 +51,11 @@
         {% endfor %}
     </div>
     {% endif %}
+    <br>
+    <br>
+    <h3>User Analytics</h3>
+    <br>
+    <embed style="width:45%" src="{% url 'user-rso-college-dist' username=member.username%}" />
+    <embed style="width:45%" src="{% url 'user-event-rso-dist' username=member.username%}" />
 </div>
-<br>
-<h3>Your Analytics</h3>
-<embed style="width:45%" src="{% url 'user-rso-college-dist' username=member.username%}" />
-<embed style="width:45%" src="{% url 'user-event-rso-dist' username=member.username%}" />
 {% endblock %}
