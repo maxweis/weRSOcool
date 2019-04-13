@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="text-left" style="padding-left:10%">
-    <form method="post" style="width:30%">
+    <form method="post" enctype="multipart/form-data" style="width:30%">
         {% load crispy_forms_tags %}
         {% csrf_token %}
         {{ form|crispy }}

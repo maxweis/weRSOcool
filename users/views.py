@@ -42,7 +42,7 @@ def profile(request, username):
 def update(request, username,):
     member = get_object_or_404(Member, username=username)
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user)
+        form = EditProfileForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect('/users/' + member.username + "/profile")
