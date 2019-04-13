@@ -64,7 +64,7 @@ def delete(request, username):
     return redirect('/users/')
 
 def get_college_dist(request, username):
-    pie_chart = pygal.Pie(title='College Association of ' + username + ' RSOs')
+    pie_chart = pygal.Pie(title='College Association of ' + username + '\'s RSOs')
     user_rsos_college_dist_query = '\
         SELECT r2.college_association, COUNT(*) \
         FROM rso_manage_registrations AS r1 JOIN rso_manage_rso as r2 ON r1.rso_id = r2.id \
