@@ -3,10 +3,6 @@
 {% block title %}{{rso.name}} Events{% endblock %}
 
 {% block content %}
-<div class="text-center">
-        <h2>Upcoming RSO Events</h2>
-        <br>
-</div>
 <div class="text-left" style="padding-left:10%">
     {% if all_events %}
         {% for event in all_events %}

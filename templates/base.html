@@ -7,7 +7,9 @@
 </head>
 <body>
     {% load crispy_forms_tags %}
+    {% with url_name=request.resolver_match.url_name %}
     {% include "tabs.html" %}
+    {% endwith %}
     <br>
     <br>
     <main>
