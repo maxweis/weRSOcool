@@ -20,7 +20,7 @@ class Member(AbstractUser):
     username = models.CharField(max_length=64, primary_key=True)
     academic_year = models.CharField(max_length=20, choices=ACAD_YEAR_CHOICES)
     major = models.CharField(max_length=30)
-    resume = models.FileField(upload_to='member_resumes/')
+    resume = models.FileField(upload_to='member_resumes/', blank=True, null=True)
     icon = models.ImageField(upload_to='member_images/', default='default_user.png')
 
     def __str__(self):
