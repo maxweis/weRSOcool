@@ -44,10 +44,20 @@ def rso_profile(request, rso_name):
     tags = Tag.objects.raw('SELECT * FROM "rso_manage_tag" WHERE rso_id = {}'.format(rso_id))
     closest = nearest(rso)
 
+    email_query =   'SELECT email \
+                    FROM rso_manage_registrations JOIN users_member ON member_id = username \
+                    WHERE rso_id = {}'.format(rso_id)
+    
+
+    cursor = connection.cursor()
+    cursor.execute(email_query)
+    emails = [x[0] for x in cursor.fetchall()]
+    mailing_list = ", ".join(emails)
+
 
     return render(request, 'rso_profile.html', {'rso' : rso, 'member_registrations' : member_registrations, 'member_names' : member_names,
                                                 'admin_registrations' : admin_registrations, 'admin_names' : admin_names, 'tags' : tags, 'closest' : closest,
-                                                })
+                                                'mailing_list' : mailing_list})
 
 def register(request, rso_name):
     username = request.user.username

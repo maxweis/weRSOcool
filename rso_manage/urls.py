@@ -14,5 +14,4 @@ urlpatterns = [
     path('<rso_name>/removeadmin/<username>', views.removeadmin, name='remove_admin'),
     path('<rso_name>/major_distribution', views.major_distribution, name='major_distribution'),
     path('<rso_name>/rso_year_distribution', views.rso_year_distribution, name='rso_year_distribution'),
-    path('<rso_name>/mailing_list', views.mailing_list, name='rso_mailing_list')
 ]

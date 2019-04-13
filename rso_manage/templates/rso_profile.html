@@ -40,7 +40,7 @@
         <a class="btn btn-primary" href="/rsos/{{rso.name}}/add_tag" role="button">Add  Tags</a>
         <a class="btn btn-danger" href="/rsos/{{rso.name}}/delete" role="button">Delete RSO</a>
         <br> <br>
-        <a class="btn btn-info" href="/rsos/{{rso.name}}/mailing_list" target="_blank" role = "button">Mailing List</a>
+        <button class="btn btn-info" id="mailing_list">Mailing List</button>
         {% endif %}
         <br><br>
 
@@ -130,4 +130,9 @@
 <embed style="width:45%" src="{% url 'rso_year_distribution' rso_name=rso.name%}" />
 <embed style="width:45%" src="{% url 'major_distribution' rso_name=rso.name%}" />
 </div>
+<script>
+document.querySelector("#mailing_list").onclick = function() {
+    alert("{{mailing_list}}");
+};
+</script>
 {% endblock %}
