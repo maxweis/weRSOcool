@@ -4,11 +4,12 @@
 
 {% block content %}
 
-<div class="container">
-    <form method="post">
+<div class="text-left" style="padding-left:10%">
+    <form method="post" style="width:30%">
+        {% load crispy_forms_tags %}
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="sumbit" class="btn btn-primary" href="{% url 'user-update' member.username %}" value="{% url 'user-profile' member.username %}">Sumbit</button>
+        {{ form|crispy }}
+        <button type="sumbit" class="btn btn-primary" href="{% url 'user-update' member.username %}" value="{% url 'user-profile' member.username %}">Submit</button>
     </form>
     <br>
 </div>

@@ -8,9 +8,10 @@
 <div class="text-left" style="padding-left:10%">
     {% if user.is_authenticated %}
     <h2>RSO Registration</h2>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" style="width:30%">
+        {% load crispy_forms_tags %}
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         <button class="btn btn-success" type="submit">Submit</button>
     </form>
     {% else %}

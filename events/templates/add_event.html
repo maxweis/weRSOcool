@@ -8,11 +8,12 @@
 {{ form.media }} 
 <div class="text-left" style="padding-left:10%">
     <h2>Add Event</h2>
-    Need help thinking of a time?  Try {{suggest}}, since only {{conflicts}} people have things that day.
+    <p style="color:SeaGreen">Need help thinking of a time? Try {{suggest}}, there are {{conflicts}} conflicts then! </p>
     {% if user.is_authenticated %}
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" style="width:30%">
+        {% load crispy_forms_tags %}
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         <button class="btn btn-success" type="submit">Submit</button>
     </form>
     {% else %}
