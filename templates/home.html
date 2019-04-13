@@ -3,10 +3,33 @@
 {% block title %}weRSOcool{% endblock %}
 
 {% block content %}
-<div class="text-center" style="padding-left:10%">
+<div class="text-center">
     <h2>Welcome to weRSOcool! <br>
         We manage RSOs and their members <br><br>
     </h2>
 </div>
+<h3 class="text-center">Featured RSOs</h3>
+<div class="row justify-content-center align-items-center" style="width:95%;text-align:center; margin:0 auto">
+    {% if featured_rsos %}
+        {% for rso in featured_rsos %}
+            <div class="row-sm-2 py-2" style="width: 36rem; margin:5px">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href ="/rsos/{{rso.name}}/profile " >{{ rso.name }}</h5></a>
+                        {% if rso.description %}
+                            {{rso.description}}
+                        {% endif %}
+                    </div>
+                    {% if rso.icon %}
+                        <a href ="/rsos/{{rso.name}}/profile ">
+                            <img class="card-img-bottom" src="/media/{{rso.icon}}"></a>
+                        </a>
+                    {% endif %}
+                </div>
+        </div>
+    {% endfor %}
+    {% else %}
+    <h3> No rsos added </h3>
+    {% endif %}
+</div>
 {% endblock %}
-

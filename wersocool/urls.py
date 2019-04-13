@@ -10,9 +10,10 @@ from users import views as users_views
 from rso_manage import urls as rso_urls
 from events import urls as events_urls
 from analytics import urls as analytics_urls
+from .views import home_view
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('', home_view, name='home'),
     path('signup', users_views.SignUp, name='signup'),
     path('login', auth_views.LoginView.as_view(), {'template_name': 'login.html'}, name='login'),
     path('logout', auth_views.LogoutView.as_view(), {'template_name': 'logged_out.html'}, name='logout'),
