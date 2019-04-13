@@ -4,11 +4,11 @@
 
 {% block content %}
     <div class="text-center">
-        <div class="text-center">
-            <embed style="width:45%" src="{% url 'rso_users_pie_chart' %}" /> 
-            <embed style="width:45%" src="{% url 'rso_colleges_chart' %}" /> 
-            <embed style="width:45%" src="{% url 'users_years' %}" /> 
-            <embed style="width:45%" src="{% url 'majors' %}" /> 
+        <div class="text-center" style="display: flux; justify-content: space-between">
+            <embed style="width:35%" src="{% url 'rso_users_pie_chart' %}" /> 
+            <embed style="width:35%" src="{% url 'rso_colleges_chart' %}" /> 
+            <embed style="width:35%" src="{% url 'users_years' %}" /> 
+            <embed style="width:35%" src="{% url 'majors' %}" /> 
         </div>
     </div>
 {% endblock %}
