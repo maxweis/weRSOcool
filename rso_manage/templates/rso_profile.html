@@ -18,9 +18,9 @@
         {% endfor %}
     </ul>
         {% if closest != None %}
-        Another RSO like this:<a href="/rsos/{{closest}}/profile"> {{closest}} </a>
-        <br>
-        <br>
+        <p style="color: SeaGreen">
+        Another RSO like this: <a href="/rsos/{{closest}}/profile">{{closest}}</a>
+        </p>
         {% endif %}
     {% else %}
     <br>
