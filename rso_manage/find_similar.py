@@ -50,6 +50,9 @@ def nearest(rso):
     y = df[len(df.columns)-1]
 
     index = -1
+    if (rso.name not in y.tolist()):
+        return None
+
     index = y.tolist().index(rso.name)
     rso_tuple = x.iloc[[index]]
 
