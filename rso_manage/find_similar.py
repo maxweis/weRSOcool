@@ -1,5 +1,7 @@
-from sklearn.neighbors import KNeighborsClassifier
+import pandas as pd
+import numpy as np
 from .models import RSO, Tag
+from .forms import COLLEGES
 
 def get_vectors():
     tag_list = set()
@@ -8,54 +10,55 @@ def get_vectors():
     for tag in Tag.objects.all():
         if tag.rso.name not in vectors:
             vectors[tag.rso.name] = set()
-
         tag_list.add(tag.tag)
         vectors[tag.rso.name].add(tag.tag)
-
     tag_list = list(tag_list)
 
     # turns the feature vectors from a set into an array
     for vec in vectors:
         vectors[vec] = [int(tag in vectors[vec]) for tag in tag_list]
-    return vectors
+
+    list_df = []
+    for name, vec in vectors.items():
+        college_name = RSO.objects.get(name=name).college_association
+        college_vect = [0] * len(COLLEGES)
+        for i in range(len(COLLEGES)):
+            if college_name == COLLEGES[i]:
+                college_vect[i] = 1
+        tags = []
+        for num in vec:
+            tags.append(num)
+        list_df.append(college_vect + tags + [name])
+    df = pd.DataFrame(list_df)
+    return df
 
 def dist(v1, v2):
+    if (len(v1) != len(v2)):
+        return len(max(len(v1), len(v2))) * 100
     total = 0
-    for x, y in zip(v1, v2):
-        total += (x - y) ** 2
+    for i in range(len(v1)):
+        if i < len(COLLEGES):
+            total += (int(v1[i]) - int(v2[i])) * 2
+        else:
+            total += (int(v1[i]) - int(v2[i]))
     return total
 
 # Finds the rso that is most similar to the rso
 def nearest(rso):
-    vectors = get_vectors()
-    if rso.name not in vectors:
-        return None
-    rso_vec = vectors[rso.name]
+    df = get_vectors()
+    x = df[df.columns[0:len(df.columns)-1]]
+    y = df[len(df.columns)-1]
 
-    closest = None
-    min_dist = -1
-    for name, vec in vectors.items():
-        if (min_dist == -1 or dist(vec, rso_vec) < min_dist) and name != rso.name:
-            min_dist = dist(vec, rso_vec)
-            closest = name
+    index = -1
+    index = y.tolist().index(rso.name)
+    rso_tuple = x.iloc[[index]]
+
+    min_dist = len(y) * 100
+    for i in range(len(y)):
+        distance = dist(rso_tuple, x.iloc[[index]])
+        if y[i] != rso.name:
+            if distance < min_dist:
+                min_dist = distance
+                closest = y[i]
 
     return closest
-
-# def nearest(rso):
-#     vectors = get_vectors()
-#     keys, values = [], []
-#     for name, vec in vectors.items():
-#         if name != rso.name:
-#             vec_norm = vec.copy()
-#             for i in range(len(vec_norm)):
-#                 # normalize vector
-#                 vec_norm[i] /= sum(vec)
-#             vectors[name] = vec_norm
-#             keys.append(name)
-#             values.append(vec_norm)
-#
-#     n = min(len(keys), 5)
-#     classifier = KNeighborsClassifier(n_neighbors=n, algorithm='kd_tree')
-#     classifier.fit(values, keys)
-#     y_pred = classifier.predict([vectors[rso.name],])
-#     return y_pred[0]
