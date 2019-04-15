@@ -90,7 +90,12 @@ def attend_event(request, rso_name, event):
     return redirect(request.META['HTTP_REFERER'])
 
 def cancel_attendance(request, rso_name, event):
-    event = Event.objects.get(name=event)
+    event_list = Event.objects.filter(name=event)
+    event = None
+    for e in event_list:
+        if e.rso.name == rso_name:
+            event = e
+            break
     username = request.user.username
     member = Member.objects.get(username=username)
     if Attending.objects.filter(user=member, event=event).exists():
