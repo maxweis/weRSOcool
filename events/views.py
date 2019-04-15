@@ -74,7 +74,13 @@ def display_events(request, rso_name):
     return render(request, 'event_list.html', {'all_events' : all_events, 'rso' : rso, 'attending' : attending})
 
 def attend_event(request, rso_name, event):
-    event = Event.objects.get(name=event)
+    event_list = Event.objects.filter(name=event)
+    event = None
+    for e in event_list:
+        if e.rso.name == rso_name:
+            event = e
+            break
+
     username = request.user.username
     member = Member.objects.get(username=username)
     if not Attending.objects.filter(user=member, event=event).exists():
