@@ -46,14 +46,19 @@ def dist(v1, v2):
 # Finds the rso that is most similar to the rso
 def nearest(rso):
     df = get_vectors()
-    x = df[df.columns[0:len(df.columns)-1]]
-    y = df[len(df.columns)-1]
+    try:
+        x = df[df.columns[0:len(df.columns)-1]]
+        y = df[len(df.columns)-1]
+    except:
+        return None
 
     index = -1
     if (rso.name not in y.tolist()):
         return None
 
     index = y.tolist().index(rso.name)
+    if (index == -1):
+        return None
     rso_tuple = x.iloc[[index]]
 
     min_dist = len(y) * 100
