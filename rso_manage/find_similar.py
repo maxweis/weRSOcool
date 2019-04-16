@@ -45,6 +45,7 @@ def dist(v1, v2):
 
 # Finds the rso that is most similar to the rso
 def nearest(rso):
+    closest = None
     df = get_vectors()
     try:
         x = df[df.columns[0:len(df.columns)-1]]
