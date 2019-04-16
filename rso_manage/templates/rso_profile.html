@@ -54,7 +54,7 @@
         {% for member in admin_registrations %}
             <br>
             <div class="row-sm-2 py-2" style="margin:5px">
-                <div class="card" style="width: 12rem;">
+                <div class="card" style="width: 16rem;">
                 <a href="/users/{{member.member.username}}/profile">
                     {% if member.member.icon %}
                         <img class="card-img-top" src="/media/{{ member.member.icon }}" alt="{{ member.member.name }} image">
@@ -83,7 +83,7 @@
         {% for member in member_registrations %}
             <br>
             <div class="row-sm-2 py-2" style="margin:5px">
-                <div class="card" style="width: 12rem;">
+                <div class="card" style="width: 16rem;">
                 <a href="/users/{{member.member.username}}/profile">
                     {% if member.member.icon %}
                         <img class="card-img-top" src="/media/{{ member.member.icon }}" alt="{{ member.member.name }} image">
@@ -93,6 +93,7 @@
                     <div class="card-body">
                     <h5 class="card-title" style="text-align:center">{{ member.member.username }}</h5>
                     {% if request.user.username in admin_names and member.member.username not in admin_names %}
+                    <a class="btn btn-danger" href="/rsos/{{rso.name}}/unregister/{{ member.member.username }}" role="button">Remove</a>
                     <a href="/rsos/{{ rso.name }}/makeadmin/{{ member.member.username }}" class="btn btn-primary">Make admin</a>
                     {% endif %}
                 </a>

@@ -47,7 +47,7 @@ def rso_profile(request, rso_name):
     email_query =   'SELECT email \
                     FROM rso_manage_registrations JOIN users_member ON member_id = username \
                     WHERE rso_id = {}'.format(rso_id)
-    
+
 
     cursor = connection.cursor()
     cursor.execute(email_query)
@@ -84,6 +84,17 @@ def unregister(request, rso_name):
     if Registrations.objects.filter(member=member, rso=rso, admin=False).exists():
         Registrations.objects.get(member=member, rso=rso, admin=False).delete()
     return redirect('/rsos/'+rso_name+'/profile')
+
+def unregister_as_admin(request, rso_name, username):
+    rso_id = RSO.objects.get(name=rso_name).id
+    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso_id))
+    admin_names = list(set([m.member.username for m in admin_registrations]))
+    if request.user.username in admin_names and username not in admin_names:
+        member = Member.objects.get(username=username)
+        rso = RSO.objects.get(name=rso_name)
+        if Registrations.objects.filter(member=member, rso=rso, admin=False).exists():
+            Registrations.objects.get(member=member, rso=rso, admin=False).delete()
+        return redirect('/rsos/'+rso_name+'/profile')
 
 def removeadmin(request, rso_name, username):
     member = Member.objects.get(username=username)
@@ -170,7 +181,7 @@ def mailing_list(request, rso_name):
     email_query =   'SELECT email \
                     FROM rso_manage_registrations JOIN users_member ON member_id = username \
                     WHERE rso_id = {}'.format(rso_id)
-    
+
     cursor = connection.cursor()
     cursor.execute(email_query)
     emails = [x[0] for x in cursor.fetchall()]
