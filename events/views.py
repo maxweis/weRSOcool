@@ -7,6 +7,7 @@ from events.models import Event, Attending
 from users.models import Member
 import events.event_suggestions as event_suggestions
 import pygal
+import datetime
 
 def AddEvent(request, rso_name):
     event_rso = RSO.objects.get(name=rso_name)
@@ -38,7 +39,8 @@ def AddEvent(request, rso_name):
 def list_all_events(request):
     all_events = Event.objects.all().values()
     all_events = sorted(all_events, key = lambda event: event['time_begin'])
-    all_events = list(filter(lambda event: event['time_end'] > timezone.now(), all_events))
+    event_filter = lambda event: event['time_end'].timestamp() > timezone.now().timestamp()
+    all_events = list(filter(event_filter, all_events))
     attending = []
     if request.user.is_authenticated:
         attending = [a.event.id for a in Attending.objects.filter(user=request.user)]
