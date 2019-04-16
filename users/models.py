@@ -9,16 +9,16 @@ MAX_IMAGE_WIDTH = 160
 MAX_IMAGE_HEIGHT = 160
 
 class Member(AbstractUser):
-    ACAD_YEAR_CHOICES = (
-            ('FR', 'Freshman'),
-            ('SO', 'Sophomore'),
-            ('JR', 'Junior'),
-            ('SR', 'Senior'),
-            ('GR', 'Graduate')
-    )
+    ACAD_YEAR_CHOICES = [
+            'Freshman',
+            'Sophomore',
+            'Junior',
+            'Senior',
+            'Graduate',
+    ]
 
     username = models.CharField(max_length=64, primary_key=True)
-    academic_year = models.CharField(max_length=20, choices=ACAD_YEAR_CHOICES)
+    academic_year = models.CharField(max_length=20, choices=[(x,x) for x in ACAD_YEAR_CHOICES])
     major = models.CharField(max_length=30)
     resume = models.FileField(upload_to='member_resumes/', blank=True, null=True)
     icon = models.ImageField(upload_to='member_images/', default='default_user.png')
