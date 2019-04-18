@@ -4,13 +4,15 @@
 
 {% block content %}
 
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ form.media }} 
 <div class="text-left" style="padding-left:10%">
-    <form method="post" enctype="multipart/form-data" style="width:30%" action="{% url 'update-event' event.name rso_name %}">
+    <form method="post" enctype="multipart/form-data" style="width:30%">
         {% load crispy_forms_tags %}
         {% csrf_token %}
         {{ form|crispy }}
-        <!-- <button type="submit" class="btn btn-primary" href="{% url 'update-event' member.username %}" value="{% url 'user-profile' member.username %}">Submit</button> -->
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-success" href="{% url 'event-update' rso_name event  %}" value="{% url 'event-update' rso_name event %}">Submit</button>
     </form>
     <br>
 </div>

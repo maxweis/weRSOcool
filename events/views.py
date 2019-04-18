@@ -125,23 +125,13 @@ def people_attending(request, rso_name, event):
             people.append(attend.user)
     return render(request, "people_attending.html", {"people" : people})
 
-def update(request, rso_name, event_name):
+def update_event(request, rso_name, event_name):
     event = get_object_or_404(Event, name=event_name)
     if request.method == 'POST':
-        form = EditEventForm(request.POST, request.FILE, instance=request.event)
-        if formisvalid():
+        form = EditEventForm(request.POST, instance=event)
+        if form.is_valid():
             form.save()
             return redirect('/events/')
     else:
         form = EditEventForm(instance=event)
         return render(request, 'update_event.html', {'form' : form, 'event' : event, 'rso_name': rso_name})
-
-    # member = get_object_or_404(Member, username=username)
-    # if request.method == 'POST':
-    #     form = EditProfileForm(request.POST, request.FILES, instance=request.user)
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('/users/' + member.username + "/profile")
-    # else:
-    #     form = EditProfileForm(instance=request.user)
-    #     return render(request, 'update_profile.html', {'form' : form, 'member' : member})
