@@ -31,7 +31,7 @@ class RSOCreationForm(ModelForm):
         fields = ('name', 'date_established', 'college_association', 'icon', 'description')
 
 class EditRSOForm(ModelForm):
-    date_established = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}))
+    date_established = forms.DateField(widget=DatePickerInput)
     college_association = forms.ChoiceField(choices=[(x, x) for x in COLLEGES])
 
     class Meta:
