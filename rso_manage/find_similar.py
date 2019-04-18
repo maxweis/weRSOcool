@@ -72,7 +72,7 @@ def nearest(rso):
 
     min_dist = len(y) * 100
     for i in range(len(y)):
-        distance = dist(rso_tuple, x.iloc[[index]])
+        distance = dist(rso_tuple, x.iloc[[i]])
         if y[i] != rso.name:
             if distance < min_dist:
                 min_dist = distance
