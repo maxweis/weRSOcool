@@ -21,15 +21,13 @@ def get_vectors():
     list_df = []
     for name, vec in vectors.items():
         college_name = RSO.objects.get(name=name).college_association
-        college_vect = [0] * len(COLLEGES)
-        for i in range(len(COLLEGES)):
-            if college_name == COLLEGES[i]:
-                college_vect[i] = 1
-        tags = []
-        for num in vec:
-            tags.append(num)
+
+        college_vect = [int(college_name == temp_name) for temp_name in COLLEGES]
+        tags = [x for x in vec]
+        print("tags", tags)
         list_df.append(college_vect + tags + [name])
     df = pd.DataFrame(list_df)
+    print(df)
     return df
 
 def dist(v1, v2):
@@ -46,21 +44,29 @@ def dist(v1, v2):
 # Finds the rso that is most similar to the rso
 def nearest(rso):
     closest = None
+    print("starting")
     df = get_vectors()
+    print(df)
     try:
-        x = df[df.columns[0:len(df.columns)-1]]
-        y = df[len(df.columns)-1]
+        x = df[df.columns[0:-1]]
+        y = df[df.columns[-1]]
     except:
+        print("failed")
         return None
 
     index = -1
     if (rso.name not in y.tolist()):
+        print("failed to list")
         return None
 
     index = y.tolist().index(rso.name)
     if (index == -1):
+        print("failed to list")
         return None
+
+    print("succeded", x, y)
     rso_tuple = x.iloc[[index]]
+    print("rso_tuple", rso_tuple)
 
     min_dist = len(y) * 100
     for i in range(len(y)):
