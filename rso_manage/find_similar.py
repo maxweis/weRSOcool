@@ -31,14 +31,16 @@ def get_vectors():
     return df
 
 def dist(v1, v2):
+    v1 = (v1.values).tolist()[0]
+    v2 = (v2.values).tolist()[0]
     if (len(v1) != len(v2)):
         return len(max(len(v1), len(v2))) * 100
     total = 0
     for i in range(len(v1)):
         if i < len(COLLEGES):
-            total += (int(v1[i]) - int(v2[i])) * 2
+            total += ((v1[i]) - (v2[i])) * 2
         else:
-            total += (int(v1[i]) - int(v2[i]))
+            total += (v1[i] - v2[i])
     return total
 
 # Finds the rso that is most similar to the rso

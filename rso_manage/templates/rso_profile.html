@@ -12,18 +12,16 @@
 
     {% if tags %}
     <b> Tags: </b>
-    <ul>
         {% for t in tags %}
-            <li> 
-                {{t.tag}} 
-                {% if user.username in admin_names %} 
-                    <a class='btn btn-danger' href='/rsos/{{rso.name}}/remove_tag/{{t.tag}}' role="button">
-                        <div aria-hidden="true">&times;</div>
-                    </a> 
-                {% endif %}
-            </li>
-            {% endfor %}
-    </ul>
+            <span class="badge badge-pill badge-info"> {{t.tag}} </span>
+            {% if user.username in admin_names %}
+                <a href="/rsos/{{rso.name}}/remove_tag/{{t.tag}}" class="badge badge-danger">
+                    <div aria-hidden="true">&times;</div>
+                </a>
+                &nbsp;
+            {% endif %}
+        {% endfor %}
+
         {% if closest != None %}
         <p style="color: SeaGreen">
         Another RSO like this: <a href="/rsos/{{closest}}/profile">{{closest}}</a>
