@@ -33,14 +33,16 @@ def get_vectors():
 def dist(v1, v2):
     v1 = (v1.values).tolist()[0]
     v2 = (v2.values).tolist()[0]
+    print(v1, v2)
     if (len(v1) != len(v2)):
         return len(max(len(v1), len(v2))) * 100
     total = 0
     for i in range(len(v1)):
         if i < len(COLLEGES):
-            total += ((v1[i]) - (v2[i])) * 2
+            total += abs((v1[i]) - (v2[i])) * 2
         else:
-            total += (v1[i] - v2[i])
+            total += abs(v1[i] - v2[i])
+    print("distance was", total)
     return total
 
 # Finds the rso that is most similar to the rso
@@ -72,6 +74,7 @@ def nearest(rso):
 
     min_dist = len(y) * 100
     for i in range(len(y)):
+        print("comparig", rso.name, y[i])
         distance = dist(rso_tuple, x.iloc[[i]])
         if y[i] != rso.name:
             if distance < min_dist:
