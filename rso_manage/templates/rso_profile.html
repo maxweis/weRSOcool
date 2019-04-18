@@ -14,8 +14,15 @@
     <b> Tags: </b>
     <ul>
         {% for t in tags %}
-        <li> {{t.tag}} </li>
-        {% endfor %}
+            <li> 
+                {{t.tag}} 
+                {% if user.username in admin_names %} 
+                    <a class='btn btn-danger' href='/rsos/{{rso.name}}/remove_tag/{{t.tag}}' role="button">
+                        <div aria-hidden="true">&times;</div>
+                    </a> 
+                {% endif %}
+            </li>
+            {% endfor %}
     </ul>
         {% if closest != None %}
         <p style="color: SeaGreen">

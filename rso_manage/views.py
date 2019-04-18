@@ -187,3 +187,14 @@ def mailing_list(request, rso_name):
     emails = [x[0] for x in cursor.fetchall()]
 
     return render(request, 'rso_mailing_list.html', {'mailing_list': emails})
+
+def remove_tag(request, rso_name, tag_name):
+    rso_id = RSO.objects.get(name=rso_name).id
+    delete_tag_query = 'DELETE FROM "rso_manage_tag" \
+                        WHERE rso_id = "{}" AND tag = "{}"'.format(rso_id, tag_name)
+
+    cursor = connection.cursor()
+    cursor.execute(delete_tag_query)
+    cursor.fetchall()
+
+    return redirect('/rsos/'+rso_name+'/profile')
