@@ -163,7 +163,7 @@ def major_distribution(request, rso_name):
     return pie_chart.render_django_response()
 
 def rso_year_distribution(request,rso_name):
-    pie_chart = pygal.Pie(title="Age Distribution")
+    pie_chart = pygal.Pie(title="Academic Year Distribution")
 
     rso_id = RSO.objects.get(name=rso_name).id
     years = {}
