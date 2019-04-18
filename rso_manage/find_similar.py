@@ -41,7 +41,10 @@ def dist(v1, v2):
         if i < len(COLLEGES):
             total += abs((v1[i]) - (v2[i])) * 2
         else:
-            total += abs(v1[i] - v2[i])
+            if v1[i] and v2[i]:
+                total -= 1
+            else:
+                total += abs(v1[i] - v2[i])
     print("distance was", total)
     return total
 
