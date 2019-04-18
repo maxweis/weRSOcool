@@ -10,4 +10,5 @@ urlpatterns = [
     path('rsos/<rso_name>/<event>/attend', views.attend_event, name='attend_event'),
     path('rsos/<rso_name>/<event>/cancel_attendance', views.cancel_attendance, name='cancel_attendance'),
     path('rsos/<rso_name>/<event>/people_attending', views.people_attending, name='people_attending'),
+    path('rsos/<rso_name>/<event_name>/update', views.update, name='event-update')
 ]

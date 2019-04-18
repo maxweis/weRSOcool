@@ -22,6 +22,9 @@
             {% else %}
                 <a class="btn btn-primary" href="/rsos/{{rso.name}}/{{event.name}}/attend" role="button">Attend</a>
             {% endif %}
+            {% if user.username in admin_names %}
+                <a class="btn btn-warning" href="/rsos/{{rso.name}}/{{event.name}}/update" role="button">Edit Event</a>
+            {% endif %}
             {% endif %}
             </h5>
         {% endfor %}

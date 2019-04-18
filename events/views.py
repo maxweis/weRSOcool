@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.db import connection
-from .forms import EventCreationForm
+from .forms import EventCreationForm, EditEventForm
 from rso_manage.models import RSO, Registrations
 from events.models import Event, Attending
 from users.models import Member
@@ -72,8 +72,10 @@ def display_events(request, rso_name):
     if request.user.is_authenticated:
         attending = [a.event.id for a in Attending.objects.filter(user=request.user)]
 
+    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {} AND admin = 1'.format(rso_id))
+    admin_names = list(set([m.member.username for m in admin_registrations]))
 
-    return render(request, 'event_list.html', {'all_events' : all_events, 'rso' : rso, 'attending' : attending})
+    return render(request, 'event_list.html', {'all_events' : all_events, 'rso' : rso, 'attending' : attending, 'admin_names': admin_names})
 
 def attend_event(request, rso_name, event):
     event_list = Event.objects.filter(name=event)
@@ -122,3 +124,24 @@ def people_attending(request, rso_name, event):
         if attend.event.name == event:
             people.append(attend.user)
     return render(request, "people_attending.html", {"people" : people})
+
+def update(request, rso_name, event_name):
+    event = get_object_or_404(Event, name=event_name)
+    if request.method == 'POST':
+        form = EditEventForm(request.POST, request.FILE, instance=request.event)
+        if formisvalid():
+            form.save()
+            return redirect('/events/')
+    else:
+        form = EditEventForm(instance=event)
+        return render(request, 'update_event.html', {'form' : form, 'event' : event, 'rso_name': rso_name})
+
+    # member = get_object_or_404(Member, username=username)
+    # if request.method == 'POST':
+    #     form = EditProfileForm(request.POST, request.FILES, instance=request.user)
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('/users/' + member.username + "/profile")
+    # else:
+    #     form = EditProfileForm(instance=request.user)
+    #     return render(request, 'update_profile.html', {'form' : form, 'member' : member})
