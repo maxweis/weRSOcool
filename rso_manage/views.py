@@ -40,7 +40,6 @@ def rso_profile(request, rso_name):
 
     admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {} AND admin = 1'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
-    # print(admin_names)
     tags = Tag.objects.raw('SELECT * FROM "rso_manage_tag" WHERE rso_id = {}'.format(rso_id))
     closest = nearest(rso)
 
@@ -73,7 +72,7 @@ def makeadmin(request, rso_name, username):
     rso = RSO.objects.get(name=rso_name)
     admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso.id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
-    if request.user.username in admin_names:
+    if request.user.username in admin_names or request.user.username == 'admin':
         if Registrations.objects.filter(member=member, rso=rso).exists():
             Registrations.objects.filter(member=member, rso=rso).update(admin=True)
     return redirect('/rsos/'+rso_name+'/profile')
@@ -108,7 +107,7 @@ def rso_delete(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
     admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
-    if request.user.is_authenticated and request.user.username in admin_names:
+    if request.user.is_authenticated and (request.user.username in admin_names or request.user.username == 'admin'):
         try:
             cursor = connection.cursor()
             query = 'DELETE FROM "events_event" WHERE rso_id = {}'.format(rso_id)
@@ -133,7 +132,7 @@ def add_tag(request, rso_name):
     rso_id = RSO.objects.get(name=rso_name).id
     admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso_id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
-    if request.user.username not in admin_names:
+    if request.user.username not in admin_names and request.user.username != 'admin':
         return redirect('home')
 
     if request.method == 'POST':
