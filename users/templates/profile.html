@@ -21,7 +21,7 @@
     {% if request.user.is_authenticated %}
         {% if member.username == user.username %}
         <br>
-        <a class="btn btn-primary" href="{% url 'user-update' member.username %}" role="button">Update</a>
+        <a class="btn btn-warning" href="{% url 'user-update' member.username %}" role="button">Update</a>
         <a class="btn btn-danger" href="{% url 'user-delete' member.username %}" role="button">Delete</a>
         <br>
         {% endif %}

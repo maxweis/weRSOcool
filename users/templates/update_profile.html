@@ -9,7 +9,7 @@
         {% load crispy_forms_tags %}
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-primary" href="{% url 'user-update' member.username %}" value="{% url 'user-profile' member.username %}">Submit</button>
+        <button type="submit" class="btn btn-success" href="{% url 'user-update' member.username %}" value="{% url 'user-profile' member.username %}">Submit</button>
     </form>
     <br>
 </div>
