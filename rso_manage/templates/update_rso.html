@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}weRSOcool{% endblock %}
+
+{% block content %}
+
+<div class="text-left" style="padding-left:10%">
+    <form method="post" enctype="multipart/form-data" style="width:30%">
+        {% load crispy_forms_tags %}
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success" href="/rsos/{{rso.name}}/update" value="/rsos/{{rso.name}}/update">Submit</button>
+    </form>
+    <br>
+</div>
+
+{% endblock %}
