@@ -83,10 +83,10 @@ def get_rso_event_dist(request, username):
     pie_chart = pygal.Pie(title='RSO Distribution of Meetings Attended')
 
     user_rso_meeting_query = '\
-        SELECT ev.rso_id, COUNT(*)\
-        FROM events_attending AS att JOIN events_event as ev ON att.event_id = ev.name\
+        SELECT r.name, COUNT(*)\
+        FROM (events_attending AS att JOIN events_event AS ev ON att.event_id = ev.id) JOIN rso_manage_rso as r ON r.id = ev.rso_id\
         WHERE att.user_id = "{}"\
-        GROUP BY ev.rso_id'.format(username)
+        GROUP BY r.name;'.format(username)
 
     cursor = connection.cursor()
     cursor.execute(user_rso_meeting_query)
