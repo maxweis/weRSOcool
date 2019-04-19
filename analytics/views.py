@@ -6,7 +6,7 @@ import pygal
 from django.db import connection
 
 def rso_users_pie_chart(request):
-    pie_chart = pygal.Pie(title="Member RSO distribution")
+    pie_chart = pygal.Pie(title="RSO Members Distribution")
 
     clubs = {}
     for reg in Registrations.objects.all():
@@ -21,7 +21,7 @@ def analytics_home(request):
     return render(request, "analytics_home.html")
 
 def rso_colleges_chart(request):
-    pie_chart = pygal.Pie(title="Colleges Distribution")
+    pie_chart = pygal.Pie(title="RSO College Affiliation Distribution")
 
     get_college_assoc_query = 'SELECT r2.college_association, COUNT(*) \
                                 FROM rso_manage_registrations AS r1 JOIN rso_manage_rso as r2 ON r1.rso_id = r2.id \
@@ -37,7 +37,7 @@ def rso_colleges_chart(request):
     return pie_chart.render_django_response()
 
 def users_years(request):
-    pie_chart = pygal.Pie(title="Years")
+    pie_chart = pygal.Pie(title="Member Academic Years Distribution")
 
     clubs = {}
     for mem in Member.objects.raw("Select * from users_member"):
@@ -50,7 +50,7 @@ def users_years(request):
     return pie_chart.render_django_response()
 
 def majors(request):
-    pie_chart = pygal.Pie(title="Majors")
+    pie_chart = pygal.Pie(title="Member Major Distribution")
 
 
     majors_query = 'SELECT major, COUNT(*) \
