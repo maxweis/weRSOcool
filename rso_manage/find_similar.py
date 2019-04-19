@@ -21,50 +21,64 @@ def get_vectors():
     list_df = []
     for name, vec in vectors.items():
         college_name = RSO.objects.get(name=name).college_association
-        college_vect = [0] * len(COLLEGES)
-        for i in range(len(COLLEGES)):
-            if college_name == COLLEGES[i]:
-                college_vect[i] = 1
-        tags = []
-        for num in vec:
-            tags.append(num)
+
+        college_vect = [int(college_name == temp_name) for temp_name in COLLEGES]
+        tags = [x for x in vec]
+        print("tags", tags)
         list_df.append(college_vect + tags + [name])
     df = pd.DataFrame(list_df)
+    print(df)
     return df
 
 def dist(v1, v2):
+    v1 = (v1.values).tolist()[0]
+    v2 = (v2.values).tolist()[0]
+    print(v1, v2)
     if (len(v1) != len(v2)):
         return len(max(len(v1), len(v2))) * 100
     total = 0
     for i in range(len(v1)):
         if i < len(COLLEGES):
-            total += (int(v1[i]) - int(v2[i])) * 2
+            total += abs((v1[i]) - (v2[i])) * 2
         else:
-            total += (int(v1[i]) - int(v2[i]))
+            if v1[i] and v2[i]:
+                total -= 1
+            else:
+                total += abs(v1[i] - v2[i])
+    print("distance was", total)
     return total
 
 # Finds the rso that is most similar to the rso
 def nearest(rso):
     closest = None
+    print("starting")
     df = get_vectors()
+    print(df)
     try:
-        x = df[df.columns[0:len(df.columns)-1]]
-        y = df[len(df.columns)-1]
+        x = df[df.columns[0:-1]]
+        y = df[df.columns[-1]]
     except:
+        print("failed")
         return None
 
     index = -1
     if (rso.name not in y.tolist()):
+        print("failed to list")
         return None
 
     index = y.tolist().index(rso.name)
     if (index == -1):
+        print("failed to list")
         return None
+
+    print("succeded", x, y)
     rso_tuple = x.iloc[[index]]
+    print("rso_tuple", rso_tuple)
 
     min_dist = len(y) * 100
     for i in range(len(y)):
-        distance = dist(rso_tuple, x.iloc[[index]])
+        print("comparig", rso.name, y[i])
+        distance = dist(rso_tuple, x.iloc[[i]])
         if y[i] != rso.name:
             if distance < min_dist:
                 min_dist = distance
