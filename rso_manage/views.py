@@ -12,9 +12,6 @@ import pygal
 def AddRSO(request):
     if request.method == 'POST':
         form = RSOCreationForm(request.POST, request.FILES)
-        if form.is_valid():
-            print("QUERY", RSO.objects.filter(name=form.cleaned_data.get('name')).query)
-
         query = 'SELECT * \
                 FROM rso_manage_rso\
                 WHERE rso_manage_rso.name = "{}"'.format(form.cleaned_data.get('name'))
