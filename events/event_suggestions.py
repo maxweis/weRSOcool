@@ -3,14 +3,38 @@ from rso_manage.models import RSO, Registrations
 from users.models import Member
 from datetime import datetime,date,timedelta
 
+def sleep_times():
+
+    sleep = []
+    for i in range(20):
+        now = datetime.now()
+        sleeptime = datetime(now.year, now.month, now.day) + timedelta(days=i) + timedelta(hours=22)
+
+        waketime = sleeptime + timedelta(hours=10)
+
+        sleep.append((sleeptime, waketime))
+
+    return sleep
+
+
+    
+
 def get_best_time(event_times):
     #event times is a list of tuples of start an dend
     event_types = {}
 
+    
+    
+
     for start, end in event_times:
         event_types[start] = event_types.get(start, 0) + 1
         event_types[end] = event_types.get(end, 0) - 1
-        
+
+    for start, end in sleep_times():
+        event_types[start] = event_types.get(start, 0) + 99
+        event_types[end] = event_types.get(end, 0) - 99
+
+
     # assume that people are going to need one day in advance
     today = datetime.now()
     tomorrow = datetime.now() + timedelta(days=1)
@@ -24,6 +48,8 @@ def get_best_time(event_times):
     for event in sorted_events:
         conflicts += event_types[event]
         conflict_map[event] = conflicts
+
+    
 
 
     latest_day = datetime.now() + timedelta(days=14);
