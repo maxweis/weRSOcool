@@ -3,6 +3,8 @@ import numpy as np
 from .models import RSO, Tag
 from .forms import COLLEGES
 
+
+
 def get_vectors():
     tag_list = set()
     # vectors is map from rso_name -> feature vector
@@ -10,8 +12,8 @@ def get_vectors():
     for tag in Tag.objects.all():
         if tag.rso.name not in vectors:
             vectors[tag.rso.name] = set()
-        tag_list.add(tag.tag)
-        vectors[tag.rso.name].add(tag.tag)
+        tag_list.add(tag.tag.lower())
+        vectors[tag.rso.name].add(tag.tag.lower())
     tag_list = list(tag_list)
 
     # turns the feature vectors from a set into an array
