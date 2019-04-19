@@ -30,6 +30,14 @@ class RSOCreationForm(ModelForm):
         model = RSO
         fields = ('name', 'date_established', 'college_association', 'icon', 'description')
 
+class EditRSOForm(ModelForm):
+    date_established = forms.DateField(widget=DatePickerInput)
+    college_association = forms.ChoiceField(choices=[(x, x) for x in COLLEGES])
+
+    class Meta:
+        model = RSO
+        fields = ('name', 'date_established', 'college_association', 'description')
+
 class TagCreationForm(ModelForm):
 
     class Meta(ModelForm):

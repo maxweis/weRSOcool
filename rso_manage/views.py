@@ -3,7 +3,7 @@ from django.views import generic
 from django.contrib import messages
 from django.urls import reverse
 from django.db import connection
-from .forms import RSOCreationForm, TagCreationForm
+from .forms import RSOCreationForm, EditRSOForm, TagCreationForm
 from .models import RSO, Registrations, Tag, MajorDist
 from users.models import Member
 from .find_similar import nearest
@@ -28,9 +28,34 @@ def AddRSO(request):
 
     return render(request, 'rso_registration.html', {'form' : form})
 
+def update_rso(request, rso_name,):
+    rso = get_object_or_404(RSO, name=rso_name)
+    if request.method == 'POST':
+        form = EditRSOForm(request.POST, request.FILES, instance=rso)
+        if form.is_valid():
+            form.save()
+            return redirect('/rsos/')
+    else:
+        form = EditRSOForm(instance=rso)
+        return render(request, 'update_rso.html', {'form' : form, 'rso' : rso_name})
+
 def rso_list(request):
     all_rsos = RSO.objects.raw('SELECT * FROM "rso_manage_rso"')
     return render(request, 'rso_list.html', {'all_rsos' : all_rsos})
+
+def rso_list_search(request):
+    if 'search_text' in request.GET:
+        search = request.GET['search_text'].strip()
+        rso_list_query = ''
+        if (search == ''):
+            rso_list_query = 'SELECT * FROM "rso_manage_rso"'
+        else:
+            rso_list_query = '\
+                SELECT * FROM "rso_manage_rso"\
+                WHERE name LIKE "%{}%"'.format(search)
+
+        all_rsos = RSO.objects.raw(rso_list_query)
+        return render(request, 'rso_list.html', {'all_rsos' : all_rsos})
 
 def rso_profile(request, rso_name):
     rso = get_object_or_404(RSO, name=rso_name)
