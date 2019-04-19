@@ -52,7 +52,7 @@ def rso_list_search(request):
         else:
             rso_list_query = '\
                 SELECT * FROM "rso_manage_rso"\
-                WHERE name LIKE "{}%"'.format(search)
+                WHERE name LIKE "%{}%"'.format(search)
 
         all_rsos = RSO.objects.raw(rso_list_query)
         return render(request, 'rso_list.html', {'all_rsos' : all_rsos})
