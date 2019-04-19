@@ -48,7 +48,9 @@ class Tag(models.Model):
     def __str__(self):
         return self.rso.name + ": " + self.tag
 
-
+    def save(self, *args, **kwargs):
+        self.tag = self.tag.lower()
+        return super(Tag, self).save(*args, **kwargs)
 
 # TODO: GET RID OF THIS #
 class MajorDist(models.Model):
