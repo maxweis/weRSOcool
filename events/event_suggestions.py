@@ -10,7 +10,7 @@ def sleep_times():
         now = datetime.now()
         sleeptime = datetime(now.year, now.month, now.day) + timedelta(days=i) + timedelta(hours=22)
 
-        waketime = sleeptime + timedelta(hours=8)
+        waketime = sleeptime + timedelta(hours=10)
 
         sleep.append((sleeptime, waketime))
 
