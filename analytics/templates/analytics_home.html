@@ -5,8 +5,15 @@
 {% block content %}
     <div class="text-center">
         <div class="text-center" style="display: flux; justify-content: space-between">
+            <h2> RSO Analytics </h2>
+            <br>
             <embed style="width:35%" src="{% url 'rso_users_pie_chart' %}" /> 
             <embed style="width:35%" src="{% url 'rso_colleges_chart' %}" /> 
+            <br>
+            <br>
+            <br>
+            <h2> Member Analytics</h2>
+            <br>
             <embed style="width:35%" src="{% url 'users_years' %}" /> 
             <embed style="width:35%" src="{% url 'majors' %}" /> 
         </div>
