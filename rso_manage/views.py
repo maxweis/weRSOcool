@@ -32,6 +32,20 @@ def rso_list(request):
     all_rsos = RSO.objects.raw('SELECT * FROM "rso_manage_rso"')
     return render(request, 'rso_list.html', {'all_rsos' : all_rsos})
 
+def rso_list_search(request):
+    if 'search_text' in request.GET:
+        search = request.GET['search_text'].strip()
+        rso_list_query = ''
+        if (search == ''):
+            rso_list_query = 'SELECT * FROM "rso_manage_rso"'
+        else:
+            rso_list_query = '\
+                SELECT * FROM "rso_manage_rso"\
+                WHERE name LIKE "{}%"'.format(search)
+
+        all_rsos = RSO.objects.raw(rso_list_query)
+        return render(request, 'rso_list.html', {'all_rsos' : all_rsos})
+
 def rso_profile(request, rso_name):
     rso = get_object_or_404(RSO, name=rso_name)
     rso_id = RSO.objects.get(name=rso_name).id
