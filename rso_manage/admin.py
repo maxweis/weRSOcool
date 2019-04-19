@@ -5,4 +5,3 @@ from .models import RSO, Registrations
 
 admin.site.register(RSO)
 admin.site.register(Registrations)
-admin.site.register(Tag)
