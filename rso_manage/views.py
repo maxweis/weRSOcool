@@ -12,7 +12,17 @@ import pygal
 def AddRSO(request):
     if request.method == 'POST':
         form = RSOCreationForm(request.POST, request.FILES)
-        if form.is_valid() and not RSO.objects.filter(name=form.cleaned_data.get('name')).exists():
+        if form.is_valid():
+            print("QUERY", RSO.objects.filter(name=form.cleaned_data.get('name')).query)
+
+        query = 'SELECT * \
+                FROM rso_manage_rso\
+                WHERE rso_manage_rso.name = "{}"'.format(form.cleaned_data.get('name'))
+        cursor = connection.cursor()
+        cursor.execute(query)
+        invalid = cursor.fetchall()
+        connection.commit()
+        if form.is_valid() and not invalid:
             name = form.cleaned_data.get('name')
             date_established = form.cleaned_data.get('date_established')
             college_association = form.cleaned_data.get('college_association')
@@ -87,9 +97,15 @@ def register(request, rso_name):
     username = request.user.username
     member = Member.objects.get(username=username)
     rso = RSO.objects.get(name=rso_name)
-    if not Registrations.objects.filter(member=member, rso=rso).exists():
+    query = 'SELECT * \
+             FROM "rso_manage_registrations"\
+             WHERE (rso_manage_registrations.member_id = "{}" AND rso_manage_registrations.rso_id = "{}")'.format(member.username, rso.id)
+    cursor = connection.cursor()
+    cursor.execute(query)
+    if not cursor.fetchall():
         reg = Registrations(member=member, rso=rso)
         reg.save()
+    connection.commit()
     return redirect('/rsos/'+rso_name+'/profile')
 
 def makeadmin(request, rso_name, username):
@@ -98,34 +114,57 @@ def makeadmin(request, rso_name, username):
     admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso.id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
     if request.user.username in admin_names or request.user.username == 'admin':
-        if Registrations.objects.filter(member=member, rso=rso).exists():
+        query = 'SELECT * \
+                 FROM "rso_manage_registrations"\
+                 WHERE (rso_manage_registrations.member_id = "{}" AND rso_manage_registrations.rso_id = "{}")'.format(member.username, rso.id)
+        cursor = connection.cursor()
+        cursor.execute(query)
+        if cursor.fetchall():
             Registrations.objects.filter(member=member, rso=rso).update(admin=True)
+        connection.commit()
     return redirect('/rsos/'+rso_name+'/profile')
 
 def unregister(request, rso_name):
     member = Member.objects.get(username=request.user.username)
     rso = RSO.objects.get(name=rso_name)
-    if Registrations.objects.filter(member=member, rso=rso, admin=False).exists():
+    query = 'SELECT * \
+             FROM "rso_manage_registrations" \
+             WHERE (rso_manage_registrations.admin = False AND rso_manage_registrations.member_id = "{}" AND rso_manage_registrations.rso_id = "{}")'.format(member.username, rso.id)
+    cursor = connection.cursor()
+    cursor.execute(query)
+    if cursor.fetchall():
         Registrations.objects.get(member=member, rso=rso, admin=False).delete()
+    connection.commit()
     return redirect('/rsos/'+rso_name+'/profile')
 
 def unregister_as_admin(request, rso_name, username):
-    rso_id = RSO.objects.get(name=rso_name).id
-    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso_id))
+    rso = RSO.objects.get(name=rso_name)
+    admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id={} AND admin=1'.format(rso.id))
     admin_names = list(set([m.member.username for m in admin_registrations]))
     if request.user.username in admin_names and username not in admin_names:
         member = Member.objects.get(username=username)
-        rso = RSO.objects.get(name=rso_name)
-        if Registrations.objects.filter(member=member, rso=rso, admin=False).exists():
+        query = 'SELECT *\
+                 FROM rso_manage_registrations\
+                 WHERE (rso_manage_registrations.admin = 0 AND rso_manage_registrations.member_id = "{}" AND rso_manage_registrations.rso_id = "{}")'.format(username, rso.id)
+        cursor = connection.cursor()
+        cursor.execute(query)
+        if cursor.fetchall():
             Registrations.objects.get(member=member, rso=rso, admin=False).delete()
-        return redirect('/rsos/'+rso_name+'/profile')
+        connection.commit()
+    return redirect('/rsos/'+rso_name+'/profile')
 
 def removeadmin(request, rso_name, username):
     member = Member.objects.get(username=username)
     rso = RSO.objects.get(name=rso_name)
     admin_registrations = Registrations.objects.raw('SELECT * FROM "rso_manage_registrations" WHERE rso_id = {} AND admin=1'.format(rso.id))
-    if len(admin_registrations) > 1 and Registrations.objects.filter(member=member, rso=rso).exists():
+    query = 'SELECT * \
+             FROM "rso_manage_registrations"\
+             WHERE (rso_manage_registrations.member_id = "{}" AND rso_manage_registrations.rso_id = "{}")'.format(member.username, rso.id)
+    cursor = connection.cursor()
+    cursor.execute(query)
+    if len(admin_registrations) > 1 and cursor.fetchall():
         Registrations.objects.filter(member=member, rso=rso).update(admin=False)
+    connection.commit()
     return redirect('/rsos/'+rso_name+'/profile')
 
 def rso_delete(request, rso_name):
