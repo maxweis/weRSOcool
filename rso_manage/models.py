@@ -12,7 +12,7 @@ MAX_IMAGE_HEIGHT = 400
 class RSO(models.Model):
     name = models.CharField(max_length=100)
     date_established = models.DateField()
-    college_association = models.CharField(max_length=50)
+    college_association = models.CharField(max_length=128)
     icon = models.ImageField(upload_to='rso_icons/', default='default_rso.png')
     # creator = models.CharField(max_length=64)
     description = models.CharField(max_length=1024)
